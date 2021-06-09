@@ -1,0 +1,45 @@
+body {
+    margin: 5px;
+    padding: 5px;
+    background: #424242;
+}
+
+#preview {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+}
+
+#start_recorder_button {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    background-color: #F4511e;
+    color: #ecf0f1;
+    transform: translateX(-50%);
+}
+
+#options {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#options .option_item {
+    display: inline-block;
+}
+
+#instruction {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#version {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: #999999;
+}
