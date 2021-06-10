@@ -7,13 +7,24 @@ body {
 
 #preview {
     position: absolute;
-    top: 40%;
+    top: 5%;
     left: 50%;
+    border: 1px solid white;
+    transform: translateX(-50%);
+    width: 40%;
+}
+
+#message {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #E91E63;
 }
 
 #start_recorder_button {
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
     overflow: hidden;
     padding: 15px;
@@ -35,15 +46,15 @@ body {
 
 #options {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translateX(-50%);
 }
 
 #options .option_item {
-    display: inline-block;
+    /*display: inline-block;*/
     color: #000000;
-    margin-right: 1em;
+    margin-bottom: 1em;
     border: 2px solid #2196F3;
     background-color: #64B5F6;
     padding: 8px;
@@ -52,7 +63,7 @@ body {
 
 #instruction {
     position: absolute;
-    top: 60%;
+    top: 75%;
     left: 50%;
     transform: translateX(-50%);
 }
