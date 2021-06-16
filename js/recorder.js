@@ -1,113 +1,127 @@
-const warningEl = document.getElementById('warning');
-const videoElement = document.getElementById('videoElement');
-const captureBtn = document.getElementById('captureBtn');
-const startBtn = document.getElementById('startBtn');
-const stopBtn = document.getElementById('stopBtn');
-const download = document.getElementById('download');
-const audioToggle = document.getElementById('audioToggle');
-const micAudioToggle = document.getElementById('micAudioToggle');
+"use strict";
 
-if ('getDisplayMedia' in navigator.mediaDevices) warningEl.style.display = 'none';
-
-let blobs;
-let blob;
-let rec;
+let screenStream;
+let micStream;
 let stream;
-let voiceStream;
-let desktopStream;
+let streamBlobs = [];
+let recorder;
 
-const mergeAudioStreams = (desktopStream, voiceStream) => {
-    const context = new AudioContext();
-    const destination = context.createMediaStreamDestination();
-    let hasDesktop = false;
-    let hasVoice = false;
-    if (desktopStream && desktopStream.getAudioTracks().length > 0) {
-        // If you don't want to share Audio from the desktop it should still work with just the voice.
-        const source1 = context.createMediaStreamSource(desktopStream);
-        const desktopGain = context.createGain();
-        desktopGain.gain.value = 0.7;
-        source1.connect(desktopGain).connect(destination);
-        hasDesktop = true;
+
+// 綁定動作
+$("#start_recorder_button").on("click", async () => {
+    getPermissions();
+});
+
+//
+$("#stop_recorder_button").on("click", () => {
+    recorder.stop();
+});
+// 取得錄影、錄音權限
+async function getPermissions() {
+    // 判斷聲音模式
+    let isSystemAudio, isMicAudio
+    switch ($("#audio_mode").val()) {
+        case "mic_system":
+            isSystemAudio = true;
+            isMicAudio = true;
+            break;
+        case "only_mic":
+            isSystemAudio = false;
+            isMicAudio = true;
+            break;
+        case "only_system":
+            isSystemAudio = true;
+            isMicAudio = false;
+            break;
+        case "no_sound":
+            isSystemAudio = false;
+            isMicAudio = false;
+            break;
     }
 
-    if (voiceStream && voiceStream.getAudioTracks().length > 0) {
-        const source2 = context.createMediaStreamSource(voiceStream);
-        const voiceGain = context.createGain();
-        voiceGain.gain.value = 0.7;
-        source2.connect(voiceGain).connect(destination);
-        hasVoice = true;
-    }
-
-    return (hasDesktop || hasVoice) ? destination.stream.getAudioTracks() : [];
-};
-
-captureBtn.onclick = async () => {
-    download.style.display = 'none';
-    const audio = audioToggle.checked || false;
-    const mic = micAudioToggle.checked || false;
-
-    desktopStream = await navigator.mediaDevices.getDisplayMedia({
-        video: true,
-        audio: audio
-    });
-
-    if (mic === true) {
-        voiceStream = await navigator.mediaDevices.getUserMedia({
-            video: false,
-            audio: mic
+    // 建立螢幕錄影、錄音物件
+    try {
+        screenStream = await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: isSystemAudio
         });
+    } catch (e) {
+        $("#message").html("請允許瀏覽器分享畫面");
     }
 
-    const tracks = [
-        ...desktopStream.getVideoTracks(),
-        ...mergeAudioStreams(desktopStream, voiceStream)
+    try {
+        if (isMicAudio === true) {
+            micStream = await navigator.mediaDevices.getUserMedia({
+                video: false,
+                audio: true
+            });
+        }
+    } catch (e) {
+        $("#message").html("請允許瀏覽器分享麥克風");
+    }
+
+    // 混合系統聲音和麥克風聲音
+    const streamTracks = [
+        ...screenStream.getVideoTracks(),
+        ...mergeAudioStreams(screenStream, micStream)
     ];
 
-    console.log('Tracks to add to stream', tracks);
-    stream = new MediaStream(tracks);
-    console.log('Stream', stream)
-    videoElement.srcObject = stream;
-    videoElement.muted = true;
+    // 顯示預覽
+    stream = new MediaStream(streamTracks);
+    $("#preview").prop("srcObject", stream);
 
-    blobs = [];
+    // 設定錄影格式
+    let recorderOptions = {
+        audioBitsPerSecond: 128000,
+        videoBitsPerSecond: 2500000
+    };
 
-    rec = new MediaRecorder(stream, {
-        mimeType: 'video/webm; codecs=vp8,opus'
-    });
-    rec.ondataavailable = (e) => blobs.push(e.data);
-    rec.onstop = async () => {
+    switch ($("#video_format").val()) {
+        case "h264":
+            recorderOptions.mimeType = 'video/webm;codecs=H264';
+            break;
+        case "vp9":
+            recorderOptions.mimeType = "video/webm;codecs=vp9";
+            break;
+        case "vp8":
+            recorderOptions.mimeType = "video/webm";
+            break;
+    }
 
-        //blobs.push(MediaRecorder.requestData());
-        blob = new Blob(blobs, {
+    // 建立錄影物件
+    recorder = new MediaRecorder(stream, recorderOptions);
+    recorder.ondataavailable = (e) => streamBlobs.push(e.data);
+    recorder.onstop = async () => {
+        let blob = new Blob(streamBlobs, {
             type: 'video/webm'
         });
-        let url = window.URL.createObjectURL(blob);
-        download.href = url;
-        download.download = 'test.webm';
-        download.style.display = 'block';
-    };
-    startBtn.disabled = false;
-    captureBtn.disabled = true;
-    audioToggle.disabled = true;
-    micAudioToggle.disabled = true;
-};
+        $("#download").prop("href", window.URL.createObjectURL(blob));
+        $("#download").prop("download", "a.webm");
+    }
+    recorder.start();
 
-startBtn.onclick = () => {
-    startBtn.disabled = true;
-    stopBtn.disabled = false;
-    rec.start();
-};
+}
 
-stopBtn.onclick = () => {
-    captureBtn.disabled = false;
-    audioToggle.disabled = false;
-    micAudioToggle.disabled = false;
-    startBtn.disabled = true;
-    stopBtn.disabled = true;
+// 混合系統聲音和麥克風聲音
+function mergeAudioStreams(screenStream, micStream) {
+    const context = new AudioContext();
+    const mergeDestination = context.createMediaStreamDestination();
 
-    rec.stop();
+    if (screenStream && screenStream.getAudioTracks().length > 0) {
+        const source1 = context.createMediaStreamSource(screenStream);
+        const systemAudioGain = context.createGain();
+        systemAudioGain.gain.value = 0.75;
+        source1.connect(systemAudioGain).connect(mergeDestination);
+    }
 
-    stream.getTracks().forEach(s => s.stop())
-    videoElement.srcObject = null
-    stream = null;
-};
+    if (micStream && micStream.getAudioTracks().length > 0) {
+        const source1 = context.createMediaStreamSource(micStream);
+        const micAudioGain = context.createGain();
+        micAudioGain.gain.value = 0.75;
+        source1.connect(micAudioGain).connect(mergeDestination);
+    }
+
+    return mergeDestination.stream.getAudioTracks();
+}
+
+// 開始錄影

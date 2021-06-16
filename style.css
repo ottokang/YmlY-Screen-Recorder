@@ -9,17 +9,17 @@ body {
     position: absolute;
     top: 5%;
     left: 50%;
+    width: 40%;
     border: 1px solid white;
     transform: translateX(-50%);
-    width: 40%;
 }
 
 #message {
     position: absolute;
     top: 45%;
     left: 50%;
-    transform: translateX(-50%);
     color: #E91E63;
+    transform: translateX(-50%);
 }
 
 #start_recorder_button {
@@ -52,13 +52,13 @@ body {
 }
 
 #options .option_item {
+    margin-bottom: 1em;
+    padding: 8px;
+    border: 2px solid #2196F3;
+    border-radius: 6px;
+    background-color: #64B5F6;
     /*display: inline-block;*/
     color: #000000;
-    margin-bottom: 1em;
-    border: 2px solid #2196F3;
-    background-color: #64B5F6;
-    padding: 8px;
-    border-radius: 6px;
 }
 
 #instruction {
