@@ -1,0 +1,57 @@
+.control_button {
+    display: inline-block;
+    overflow: hidden;
+    padding: 15px;
+    outline: none;
+    border-width: 0;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    text-align: center;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#start_recorder_button,
+#restart_recorder_button {
+    background-color: #7B1FA2;
+    color: #ecf0f1;
+}
+
+#start_recorder_button:hover,
+#restart_recorder_button:hover,
+#start_recorder_button:focus,
+#restart_recorder_button:focus {
+    background-color: #6A1B9A;
+}
+
+#start_recorder_button {
+    background-color: #7B1FA2;
+    color: #ecf0f1;
+}
+
+#start_recorder_button:hover,
+#start_recorder_button:focus {
+    background-color: #6A1B9A;
+}
+
+#stop_recorder_button {
+    background-color: #D32F2F;
+    color: #ecf0f1;
+}
+
+#stop_recorder_button:hover,
+#stop_recorder_button:focus {
+    background-color: #C62828;
+}
+
+
+#download_button {
+    background-color: #1976D2;
+    color: #ecf0f1;
+}
+
+#download_button:hover,
+#download_button:focus {
+    background-color: #1565C0;
+}

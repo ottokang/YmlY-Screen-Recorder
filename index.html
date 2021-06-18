@@ -4,42 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <title>螢幕錄影</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="css\style.css">
 </head>
 
 <body>
-    <video id="preview" autoplay muted></video>
-    <div id="start_recorder_button">開始錄影</div>
-    <div id="stop_recorder_button">停止錄影</div>
-    <div id="message">訊息</div>
-    <div id="options">
-        <div class="option_item">
-            <label for="audio_mode">聲音模式：</label>
-            <select id="audio_mode">
-                <option value="mic_system">麥克風+系統聲音</option>
-                <option value="only_mic">只有麥克風</option>
-                <option value="only_system">只有系統聲音</option>
-                <option value="no_sound">無聲音</option>
-            </select>
+    <div id="container">
+        <video id="preview" class="flex-item" autoplay muted></video>
+        <div id="message" class="flex-item">訊息</div>
+        <div id="buttons" class="flex-item">
+            <div id="start_recorder_button" class="control_button">開始錄影</div>
+            <div id="restart_recorder_button" class="control_button">重新錄影</div>
+            <div id="stop_recorder_button" class="control_button">停止錄影</div>
+            <div id="download_button" class="control_button"><a id="download">下載</a></div>
         </div>
-        <div class="option_item">
-            <label for="video_format">錄影格式：</label>
-            <select id="video_format">
-                <option value="h264">H.264</option>
-                <option value="vp9">VP9</option>
-                <option value="vp8">VP8</option>
-            </select>
+        <div id="options" class="flex-item">
+            <div class="option_item">
+                <label for="audio_mode">聲音模式：</label>
+                <select id="audio_mode">
+                    <option value="mic_system">麥克風+系統聲音</option>
+                    <option value="only_mic">只有麥克風</option>
+                    <option value="only_system">只有系統聲音</option>
+                    <option value="no_sound">無聲音</option>
+                </select>
+            </div>
+            <div class="option_item">
+                <label for="video_format">錄影格式：</label>
+                <select id="video_format">
+                    <option value="h264">H.264</option>
+                    <option value="vp9">VP9</option>
+                    <option value="vp8">VP8</option>
+                </select>
+            </div>
         </div>
-    </div>
+        <div id="instruction" class="flex-item">
+            <ul>
+                <li>錄音請允許麥克風權限</li>
+                <li class="only_chrome">只有「整個螢幕畫面」和「Chrome 分頁」可以分享音訊</li>
+            </ul>
 
-    <div id="instruction">
-        <ul>
-            <li>錄音請允許麥克風權限</li>
-            <li class="only_chrome">只有「整個螢幕畫面」和「Chrome 分頁」可以分享音訊</li>
-        </ul>
-        <a id="download">下載</a>
+        </div>
     </div>
-    <div id="version">v0.1</div>
+    <div id="version">
+        v0.1
+        <a href="https://github.com/ottokang/Simple-Screen-Recorder">GitHub 專案網站</a>
+    </div>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/browser_check.js"></script>
     <script src="js/recorder.js"></script>

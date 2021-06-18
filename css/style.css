@@ -1,0 +1,52 @@
+@import "buttons.css";
+
+body {
+    margin: 5px;
+    padding: 5px;
+    background: #424242;
+    color: #ecf0f1;
+}
+
+#container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.flex-item {
+    margin: 0.7em 0;
+}
+
+#preview {
+    width: 40%;
+    border: 1px solid white;
+}
+
+#message {
+    color: #E91E63;
+}
+
+#options .option_item {
+    margin-bottom: 1em;
+    padding: 8px;
+    border: 2px solid #2196F3;
+    border-radius: 6px;
+    background-color: #64B5F6;
+    /*display: inline-block;*/
+    color: #000000;
+}
+
+#version {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: #999999;
+}
+
+#version a {
+    color: #bdbdbd;
+}
+
+#version a:hover {
+    color: #757575;
+}
