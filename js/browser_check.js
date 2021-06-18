@@ -16,7 +16,7 @@ if (navigator.userAgent.indexOf("Chrome") != -1) {
     $("#audio_mode option[value='only_system']").attr("disabled", "disabled").html(function() {
         $(this).html($(this).html() + "（僅限 Chrome）");
     });
-    //$("#audio_mode option[value='only_mic']").attr("selected", "selected");
+    $("#audio_mode option[value='only_mic']").attr("selected", "selected");
 
     // 設定 Firefox 錄影格式界面
     $("#video_format option[value='h264']").attr("disabled", "disabled").html(function() {
@@ -26,7 +26,7 @@ if (navigator.userAgent.indexOf("Chrome") != -1) {
         $(this).html($(this).html() + "（僅限 Chrome）");
     });
 
-    //$("#video_format option[value='webm']").attr("selected", "selected");
+    $("#video_format option[value='vp8']").attr("selected", "selected");
 
     // 設定 Firefox 說明界面
     $(".only_chrome").hide();

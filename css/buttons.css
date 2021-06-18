@@ -12,6 +12,11 @@
     transition: background-color 0.3s;
 }
 
+.control_button a {
+    color: inherit;
+    text-decoration: none;
+}
+
 #start_recorder_button,
 #restart_recorder_button {
     background-color: #7B1FA2;

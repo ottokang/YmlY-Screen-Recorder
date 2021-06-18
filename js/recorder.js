@@ -6,18 +6,26 @@ let stream;
 let streamBlobs = [];
 let recorder;
 
+$("#restart_recorder_button").hide();
+$("#stop_recorder_button").hide();
+$("#download_button").hide();
 
-// 綁定動作
+// 綁定開始錄影動作
 $("#start_recorder_button").on("click", async () => {
-    getPermissions();
+    startRecord();
 });
 
-//
+// 綁定停止錄影動作
 $("#stop_recorder_button").on("click", () => {
     recorder.stop();
+    $("#stop_recorder_button").hide();
+    $("#restart_recorder_button").show();
+    $("#download_button").show();
+
 });
-// 取得錄影、錄音權限
-async function getPermissions() {
+
+// 開始錄影
+async function startRecord() {
     // 判斷聲音模式
     let isSystemAudio, isMicAudio
     switch ($("#audio_mode").val()) {
@@ -47,6 +55,7 @@ async function getPermissions() {
         });
     } catch (e) {
         $("#message").html("請允許瀏覽器分享畫面");
+        return;
     }
 
     try {
@@ -58,7 +67,11 @@ async function getPermissions() {
         }
     } catch (e) {
         $("#message").html("請允許瀏覽器分享麥克風");
+        return;
     }
+
+    $("#start_recorder_button").hide();
+    $("#stop_recorder_button").show();
 
     // 混合系統聲音和麥克風聲音
     const streamTracks = [
@@ -80,9 +93,6 @@ async function getPermissions() {
         case "h264":
             recorderOptions.mimeType = 'video/webm;codecs=H264';
             break;
-        case "vp9":
-            recorderOptions.mimeType = "video/webm;codecs=vp9";
-            break;
         case "vp8":
             recorderOptions.mimeType = "video/webm";
             break;
@@ -98,8 +108,9 @@ async function getPermissions() {
         $("#download").prop("href", window.URL.createObjectURL(blob));
         $("#download").prop("download", "a.webm");
     }
-    recorder.start();
 
+    // 開始錄影
+    recorder.start();
 }
 
 // 混合系統聲音和麥克風聲音
