@@ -1,17 +1,18 @@
 "use strict";
 
-let screenStream;
-let micStream;
-let stream;
-let streamBlobs = [];
-let recorder;
+var screenStream;
+var micStream;
+var stream;
+var streamBlobs;
+var recorder;
+var recorderBlobs;
 
 $("#restart_recorder_button").hide();
 $("#stop_recorder_button").hide();
 $("#download_button").hide();
 
 // 綁定開始錄影動作
-$("#start_recorder_button").on("click", async () => {
+$("#start_recorder_button, #restart_recorder_button").on("click", async () => {
     startRecord();
 });
 
@@ -21,11 +22,13 @@ $("#stop_recorder_button").on("click", () => {
     $("#stop_recorder_button").hide();
     $("#restart_recorder_button").show();
     $("#download_button").show();
-
 });
 
 // 開始錄影
 async function startRecord() {
+    recorderBlobs = [];
+    streamBlobs = [];
+
     // 判斷聲音模式
     let isSystemAudio, isMicAudio
     switch ($("#audio_mode").val()) {
@@ -64,14 +67,26 @@ async function startRecord() {
                 video: false,
                 audio: true
             });
+        } else {
+            micStream = null;
         }
     } catch (e) {
         $("#message").html("請允許瀏覽器分享麥克風");
         return;
     }
 
+    // 設定按鈕
+    $("#restart_recorder_button").hide();
     $("#start_recorder_button").hide();
     $("#stop_recorder_button").show();
+    $("#download_button").hide();
+
+    // 設定預覽畫面
+    $("#preview").prop({
+        "controls": "",
+        "muted": "muted",
+        "autoplay": "autoplay"
+    })
 
     // 混合系統聲音和麥克風聲音
     const streamTracks = [
@@ -102,11 +117,22 @@ async function startRecord() {
     recorder = new MediaRecorder(stream, recorderOptions);
     recorder.ondataavailable = (e) => streamBlobs.push(e.data);
     recorder.onstop = async () => {
-        let blob = new Blob(streamBlobs, {
+        recorderBlobs = new Blob(streamBlobs, {
             type: 'video/webm'
         });
-        $("#download").prop("href", window.URL.createObjectURL(blob));
-        $("#download").prop("download", "a.webm");
+
+        $("#preview").prop({
+            "srcObject": null,
+            "src": URL.createObjectURL(recorderBlobs),
+            "controls": "controls",
+            "muted": "",
+            "autoplay": ""
+        })
+
+        $("#download").prop({
+            "href": URL.createObjectURL(recorderBlobs),
+            "download": "a.webm"
+        });
     }
 
     // 開始錄影
