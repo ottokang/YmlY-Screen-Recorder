@@ -7,22 +7,30 @@ var streamBlobs;
 var recorder;
 var recorderBlobs;
 
-$("#restart_recorder_button").hide();
 $("#stop_recorder_button").hide();
 $("#download_button").hide();
+$("#recorder_time").hide();
 
 // 綁定開始錄影動作
-$("#start_recorder_button, #restart_recorder_button").on("click", async () => {
+$("#start_recorder_button").on("click", async () => {
     startRecord();
 });
 
 // 綁定停止錄影動作
 $("#stop_recorder_button").on("click", () => {
     recorder.stop();
+    $("#start_recorder_button").html("重新錄影").show();
     $("#stop_recorder_button").hide();
-    $("#restart_recorder_button").show();
     $("#download_button").show();
+    $("#recorder_time").hide();
 });
+
+// 綁定預覽畫面時間改變動作
+$("#preview_video").on("timeupdate", function() {
+    // 設定顯示錄影時間
+    $("#recorder_time").html("錄影時間：" + Number.parseInt($("#preview_video").prop("currentTime")).toString().toHHMMSS());
+});
+
 
 // 開始錄影
 async function startRecord() {
@@ -76,13 +84,13 @@ async function startRecord() {
     }
 
     // 設定按鈕
-    $("#restart_recorder_button").hide();
     $("#start_recorder_button").hide();
     $("#stop_recorder_button").show();
     $("#download_button").hide();
+    $("#recorder_time").show();
 
     // 設定預覽畫面
-    $("#preview").prop({
+    $("#preview_video").prop({
         "controls": "",
         "muted": "muted",
         "autoplay": "autoplay"
@@ -96,7 +104,7 @@ async function startRecord() {
 
     // 顯示預覽
     stream = new MediaStream(streamTracks);
-    $("#preview").prop("srcObject", stream);
+    $("#preview_video").prop("srcObject", stream);
 
     // 設定錄影格式
     let recorderOptions = {
@@ -121,7 +129,7 @@ async function startRecord() {
             type: 'video/webm'
         });
 
-        $("#preview").prop({
+        $("#preview_video").prop({
             "srcObject": null,
             "src": URL.createObjectURL(recorderBlobs),
             "controls": "controls",
@@ -160,5 +168,3 @@ function mergeAudioStreams(screenStream, micStream) {
 
     return mergeDestination.stream.getAudioTracks();
 }
-
-// 開始錄影

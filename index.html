@@ -9,11 +9,13 @@
 
 <body>
     <div id="container">
-        <video id="preview" class="flex-item" autoplay muted></video>
-        <div id="message" class="flex-item">訊息</div>
+        <div id="preview" class="flex-item">
+            <div id="recorder_time"></div>
+            <video id="preview_video" autoplay muted></video>
+        </div>
+        <div id="message" class="flex-item"></div>
         <div id="buttons" class="flex-item">
             <div id="start_recorder_button" class="control_button">開始錄影</div>
-            <div id="restart_recorder_button" class="control_button">重新錄影</div>
             <div id="stop_recorder_button" class="control_button">停止錄影</div>
             <br>
             <div id="download_button" class="control_button"><a id="download">下載</a></div>
@@ -51,6 +53,7 @@
     </div>
     <script src="js/jquery-3.6.0.min.js"></script>
     <script src="js/browser_check.js"></script>
+    <script src="js/utility.js"></script>
     <script src="js/recorder.js"></script>
 </body>
 

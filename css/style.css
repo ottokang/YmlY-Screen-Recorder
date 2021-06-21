@@ -15,18 +15,33 @@ body {
 
 .flex-item {
     margin: 0.7em 0;
-    /*text-align: center;*/
 }
 
 #preview {
-    width: 40%;
+    width: 50%;
+    text-align: center;
+}
+
+#recorder_time {
+    position: relative;
+    bottom: -2em;
+    width: 98%;
+    text-align: right;
+}
+
+#preview_video {
+    width: 100%;
     border: 1px solid white;
 }
 
 #message {
     color: #E91E63;
+    height: 2em;
 }
 
+#buttons {
+    text-align: center;
+}
 #options .option_item {
     margin-bottom: 1em;
     padding: 8px;
