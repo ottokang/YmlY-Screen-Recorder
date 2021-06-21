@@ -30,3 +30,26 @@ function showMessage(text, countDown = null) {
         }, countDown * 1000);
     }
 }
+
+// 倒數計時
+async function recorderCountdown(seconds) {
+    const delay = (s) => {
+        return new Promise(function(resolve) {
+            setTimeout(resolve, s);
+        });
+    };
+
+    if (seconds === "no_countdown") {
+        return;
+    } else {
+        for (let i = 1; i < Number.parseInt(seconds) + 1; i++) {
+            showMessage(seconds + 1 - i);
+            await delay(1000);
+        }
+        showMessage("開始錄影", 2);
+
+        // 播放聲音（尚未完成）
+        let audioContext = new window.AudioContext();
+        let frequency = 440;
+    }
+}

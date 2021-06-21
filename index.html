@@ -24,10 +24,10 @@
             <div class="option_item">
                 <label for="audio_mode">聲音模式：</label>
                 <select id="audio_mode">
-                    <option value="mic_system">麥克風+系統聲音</option>
-                    <option value="only_mic">只有麥克風</option>
-                    <option value="only_system">只有系統聲音</option>
-                    <option value="no_sound">無聲音</option>
+                    <option value="mic_system">🎙️麥克風+🖥️系統聲音</option>
+                    <option value="only_mic">🎙️只有麥克風</option>
+                    <option value="only_system">🖥️只有系統聲音</option>
+                    <option value="no_sound">🔇無聲音</option>
                 </select>
             </div>
             <div class="option_item">
@@ -37,10 +37,18 @@
                     <option value="vp8">.webm (VP8+Opus)</option>
                 </select>
             </div>
+
+            <div class="option_item">
+                <label for="recorder_countdown">錄影倒數：</label>
+                <select id="recorder_countdown">
+                    <option value="no_countdown" selected>無</option>
+                    <option value="3">3秒</option>
+                    <option value="5">5秒</option>
+                </select>
+            </div>
         </div>
         <div id="instruction" class="flex-item">
             <ul>
-                <li>錄音請允許麥克風權限</li>
                 <li>請至少錄影10秒以上，影片才會正常播放</li>
                 <li class="only_chrome">只有「整個螢幕畫面」和「Chrome 分頁」可以分享音訊</li>
             </ul>

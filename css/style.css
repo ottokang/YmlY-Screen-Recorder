@@ -26,6 +26,7 @@ body {
     position: relative;
     bottom: -2em;
     width: 98%;
+    color: red;
     text-align: right;
 }
 
@@ -35,13 +36,14 @@ body {
 }
 
 #message {
-    color: #E91E63;
     height: 2em;
+    color: #E91E63;
 }
 
 #buttons {
     text-align: center;
 }
+
 #options .option_item {
     margin-bottom: 1em;
     padding: 8px;

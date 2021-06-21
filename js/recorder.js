@@ -65,7 +65,7 @@ async function startRecord() {
             audio: isSystemAudio
         });
     } catch (e) {
-        $("#message").html("請允許瀏覽器分享畫面");
+        showMessage("請重新整理網頁，允許瀏覽器分享畫面");
         return;
     }
 
@@ -79,15 +79,15 @@ async function startRecord() {
             micStream = null;
         }
     } catch (e) {
-        $("#message").html("請允許瀏覽器分享麥克風");
+        showMessage("請重新整理網頁，請允許瀏覽器分享麥克風權限");
         return;
     }
 
-    // 設定按鈕
-    $("#start_recorder_button").hide();
-    $("#stop_recorder_button").show();
-    $("#download_button").hide();
-    $("#recorder_time").show();
+    // 混合系統聲音和麥克風聲音
+    const streamTracks = [
+        ...screenStream.getVideoTracks(),
+        ...mergeAudioStreams(screenStream, micStream)
+    ];
 
     // 設定預覽畫面
     $("#preview_video").prop({
@@ -96,15 +96,18 @@ async function startRecord() {
         "autoplay": "autoplay"
     })
 
-    // 混合系統聲音和麥克風聲音
-    const streamTracks = [
-        ...screenStream.getVideoTracks(),
-        ...mergeAudioStreams(screenStream, micStream)
-    ];
-
     // 顯示預覽
     stream = new MediaStream(streamTracks);
     $("#preview_video").prop("srcObject", stream);
+
+    // 開始倒數計時
+    await recorderCountdown($("#recorder_countdown").val());
+
+    // 設定按鈕
+    $("#start_recorder_button").hide();
+    $("#stop_recorder_button").show();
+    $("#download_button").hide();
+    $("#recorder_time").show();
 
     // 設定錄影格式
     let recorderOptions = {
