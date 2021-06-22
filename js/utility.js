@@ -42,11 +42,15 @@ async function recorderCountdown(seconds) {
     if (seconds === "no_countdown") {
         return;
     } else {
-        for (let i = 1; i < Number.parseInt(seconds) + 1; i++) {
-            showMessage(seconds + 1 - i);
+        let countdownSeconds = Number.parseInt(seconds);
+        for (let i = 0; i < countdownSeconds; i++) {
+            $("#countdown_time").html(countdownSeconds - i);
             await delay(1000);
         }
-        showMessage("開始錄影", 2);
+        $("#countdown_time").html("開始錄影");
+        window.setTimeout(function() {
+            $("#countdown_time").html("");
+        }, 2000);
 
         // 播放聲音（尚未完成）
         let audioContext = new window.AudioContext();

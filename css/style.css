@@ -14,12 +14,22 @@ body {
 }
 
 .flex-item {
-    margin: 0.7em 0;
+    margin: 0.3em 0;
 }
 
 #preview {
-    width: 50%;
+    width: 45%;
     text-align: center;
+}
+
+#countdown_time,
+#preview_message {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    text-shadow: 0.1em 0.1em #333333;
+    font-size: 4em;
+    transform: translateX(-50%);
 }
 
 #recorder_time {
@@ -33,11 +43,12 @@ body {
 #preview_video {
     width: 100%;
     border: 1px solid white;
+    background-color: #212121;
 }
 
 #message {
     height: 2em;
-    color: #E91E63;
+    color: #FFB74D;
 }
 
 #buttons {

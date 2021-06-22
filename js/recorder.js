@@ -28,9 +28,16 @@ $("#stop_recorder_button").on("click", () => {
 // 綁定預覽畫面時間改變動作
 $("#preview_video").on("timeupdate", function() {
     // 設定顯示錄影時間
-    $("#recorder_time").html("錄影時間：" + Number.parseInt($("#preview_video").prop("currentTime")).toString().toHHMMSS());
-});
+    let delaySeconds = $("#recorder_countdown").val();
+    if (delaySeconds === "no_countdown") {
+        delaySeconds = 0;
+    } else {
+        delaySeconds = Number.parseInt(delaySeconds);
+    }
 
+    let currentTime = Number.parseInt($("#preview_video").prop("currentTime")) - delaySeconds + 0.1;
+    $("#recorder_time").html("錄影時間：" + currentTime.toString().toHHMMSS());
+});
 
 // 開始錄影
 async function startRecord() {
@@ -97,6 +104,7 @@ async function startRecord() {
     })
 
     // 顯示預覽
+    $("#preview_message").hide();
     stream = new MediaStream(streamTracks);
     $("#preview_video").prop("srcObject", stream);
 
