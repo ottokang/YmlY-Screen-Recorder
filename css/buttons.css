@@ -1,7 +1,7 @@
 .control_button {
     display: inline-block;
     overflow: hidden;
-    padding: 15px;
+    padding: 10px;
     outline: none;
     border-width: 0;
     border-radius: 6px;

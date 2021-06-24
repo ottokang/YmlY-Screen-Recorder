@@ -27,9 +27,14 @@ body {
     position: absolute;
     top: 10%;
     left: 50%;
-    text-shadow: 0.1em 0.1em #333333;
-    font-size: 4em;
+    text-shadow: 3px 3px #333333;
+    font-size: 3em;
     transform: translateX(-50%);
+}
+
+#countdown_time {
+    color: red;
+    font-size: 5em;
 }
 
 #recorder_time {
@@ -38,6 +43,7 @@ body {
     width: 98%;
     color: red;
     text-align: right;
+    text-shadow: 1px 1px #333333;
 }
 
 #preview_video {
@@ -47,7 +53,7 @@ body {
 }
 
 #message {
-    height: 2em;
+    height: 1.6em;
     color: #FFB74D;
 }
 
