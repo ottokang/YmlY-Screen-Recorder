@@ -59,6 +59,14 @@ body {
 
 #buttons {
     text-align: center;
+    position: relative;
+    width: 45%;
+}
+
+#download {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 #options .option_item {

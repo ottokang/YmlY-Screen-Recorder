@@ -8,7 +8,7 @@ var recorder;
 var recorderBlobs;
 
 $("#stop_recorder_button").hide();
-$("#download_button").hide();
+$("#download").hide();
 $("#recorder_time").hide();
 
 // 綁定開始錄影動作
@@ -21,8 +21,17 @@ $("#stop_recorder_button").on("click", () => {
     recorder.stop();
     $("#start_recorder_button").html("重新錄影").show();
     $("#stop_recorder_button").hide();
-    $("#download_button").show();
+    $("#download").show();
     $("#recorder_time").hide();
+});
+
+// 綁定下載按鈕動作
+$("#download_link").on("click", function() {
+    if ($("#download_file_name").val().trim() === "") {
+        $(this).prop("download", "螢幕錄影.webm");
+    } else {
+        $(this).prop("download", $("#download_file_name").val().trim() + ".webm");
+    }
 });
 
 // 綁定預覽畫面時間改變動作
@@ -86,7 +95,7 @@ async function startRecord() {
             micStream = null;
         }
     } catch (e) {
-        showMessage("請重新整理網頁，請允許瀏覽器分享麥克風權限");
+        showMessage("請插入麥克風，或是重新整理網頁，允許瀏覽器分享麥克風權限");
         return;
     }
 
@@ -114,7 +123,7 @@ async function startRecord() {
     // 設定按鈕
     $("#start_recorder_button").hide();
     $("#stop_recorder_button").show();
-    $("#download_button").hide();
+    $("#download").hide();
     $("#recorder_time").show();
 
     // 設定錄影格式
@@ -148,9 +157,9 @@ async function startRecord() {
             "autoplay": ""
         })
 
-        $("#download").prop({
+        $("#download_link").prop({
             "href": URL.createObjectURL(recorderBlobs),
-            "download": "a.webm"
+            "download": "螢幕錄影.webm"
         });
     }
 
