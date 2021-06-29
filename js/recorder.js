@@ -95,8 +95,7 @@ async function startRecord() {
             micStream = null;
         }
     } catch (e) {
-        showMessage("請插入麥克風，或是重新整理網頁，允許瀏覽器分享麥克風權限");
-        return;
+        showMessage("沒有取得麥克風，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);
     }
 
     // 混合系統聲音和麥克風聲音
