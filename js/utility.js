@@ -52,8 +52,26 @@ async function recorderCountdown(seconds) {
             $("#countdown_time").html("");
         }, 2000);
 
-        // 播放聲音（尚未完成）
-        let audioContext = new window.AudioContext();
-        let frequency = 440;
+        // 播放聲音（參考：https://github.com/kapetan/browser-beep）
+        var audioContext = new window.AudioContext();
+        var currentTime = audioContext.currentTime;
+        var osc = audioContext.createOscillator();
+        var gain = audioContext.createGain();
+
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+
+        gain.gain.setValueAtTime(gain.gain.value, currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.00001, currentTime + 1);
+
+        osc.onended = function() {
+            gain.disconnect(audioContext.destination);
+            osc.disconnect(gain);
+        }
+
+        osc.type = 'sine';
+        osc.frequency.value = 440;
+        osc.start(currentTime);
+        osc.stop(currentTime + 1);
     }
 }
