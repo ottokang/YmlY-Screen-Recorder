@@ -7,6 +7,7 @@ var streamBlobs;
 var recorder;
 var recorderBlobs;
 
+// 隱藏停止錄影、下載、錄影時間
 $("#stop_recorder_button").hide();
 $("#download").hide();
 $("#recorder_time").hide();
@@ -36,16 +37,8 @@ $("#download_link").on("click", function() {
 
 // 綁定預覽畫面時間改變動作
 $("#preview_video").on("timeupdate", function() {
-    // 設定顯示錄影時間
-    let delaySeconds = $("#recorder_countdown").val();
-    if (delaySeconds === "no_countdown") {
-        delaySeconds = 0;
-    } else {
-        delaySeconds = Number.parseInt(delaySeconds);
-    }
-
-    let currentTime = Number.parseInt($("#preview_video").prop("currentTime")) - delaySeconds + 0.1;
-    $("#recorder_time").html("錄影時間：" + currentTime.toString().toHHMMSS());
+    let recorderTime = Math.floor((Date.now() - startTime) / 1000);
+    $("#recorder_time").html("錄影時間：" + recorderTime.toString().toHHMMSS());
 });
 
 // 開始錄影
@@ -116,13 +109,18 @@ async function startRecord() {
     stream = new MediaStream(streamTracks);
     $("#preview_video").prop("srcObject", stream);
 
+    // 先隱藏開始錄影、下載按鈕
+    $("#start_recorder_button").hide();
+    $("#download").hide();
+
     // 開始倒數計時
     await recorderCountdown($("#recorder_countdown").val());
 
-    // 設定按鈕
-    $("#start_recorder_button").hide();
+    // 開始錄影計時
+    startRecordTime();
+
+    // 顯示停止錄影按鈕、顯示錄影時間
     $("#stop_recorder_button").show();
-    $("#download").hide();
     $("#recorder_time").show();
 
     // 設定錄影格式

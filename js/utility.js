@@ -1,4 +1,6 @@
 var messageTimeoutID;
+var startTime;
+var recorderTime;
 
 // 處理播放時間為時:分:秒
 String.prototype.toHHMMSS = function() {
@@ -52,26 +54,36 @@ async function recorderCountdown(seconds) {
             $("#countdown_time").html("");
         }, 2000);
 
-        // 播放聲音（參考：https://github.com/kapetan/browser-beep）
-        var audioContext = new window.AudioContext();
-        var currentTime = audioContext.currentTime;
-        var osc = audioContext.createOscillator();
-        var gain = audioContext.createGain();
-
-        osc.connect(gain);
-        gain.connect(audioContext.destination);
-
-        gain.gain.setValueAtTime(gain.gain.value, currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.00001, currentTime + 1);
-
-        osc.onended = function() {
-            gain.disconnect(audioContext.destination);
-            osc.disconnect(gain);
-        }
-
-        osc.type = 'sine';
-        osc.frequency.value = 440;
-        osc.start(currentTime);
-        osc.stop(currentTime + 1);
+        // 播放聲音
+        playBeep();
     }
+}
+
+// 播放提示音（參考：https://github.com/kapetan/browser-beep）
+function playBeep() {
+    var audioContext = new window.AudioContext();
+    var currentTime = audioContext.currentTime;
+    var osc = audioContext.createOscillator();
+    var gain = audioContext.createGain();
+
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+
+    gain.gain.setValueAtTime(gain.gain.value, currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.00001, currentTime + 1);
+
+    osc.onended = function() {
+        gain.disconnect(audioContext.destination);
+        osc.disconnect(gain);
+    }
+
+    osc.type = 'sine';
+    osc.frequency.value = 440;
+    osc.start(currentTime);
+    osc.stop(currentTime + 1);
+}
+
+// 開始計算錄影時間
+function startRecordTime() {
+    startTime = Date.now();
 }

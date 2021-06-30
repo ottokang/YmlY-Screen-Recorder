@@ -57,3 +57,9 @@
 #download_button:focus {
     background-color: #1565C0;
 }
+
+#download_file_name {
+    float: left;
+    margin: 8px;
+    line-height: 2em;
+}
