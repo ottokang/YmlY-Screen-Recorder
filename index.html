@@ -9,14 +9,14 @@
 
 <body>
     <div id="container">
-        <div id="preview" class="flex-item">
+        <div id="preview" class="flex_item">
             <div id="recorder_time"></div>
             <video id="preview_video" autoplay muted></video>
             <div id="countdown_time"></div>
             <div id="preview_message">錄影預覽畫面</div>
         </div>
-        <div id="message" class="flex-item"></div>
-        <div id="buttons" class="flex-item">
+        <div id="message" class="flex_item"></div>
+        <div id="buttons" class="flex_item">
             <div id="start_recorder_button" class="control_button">開始錄影</div>
             <div id="stop_recorder_button" class="control_button">停止錄影</div>
             <br>
@@ -25,7 +25,7 @@
                 <div id="download_button" class="control_button"><a id="download_link">下載</a></div>
             </div>
         </div>
-        <div id="options" class="flex-item">
+        <div id="options" class="flex_item">
             <div class="option_item">
                 <label for="audio_mode">聲音模式：</label>
                 <select id="audio_mode">
@@ -52,10 +52,14 @@
                 </select>
             </div>
         </div>
-        <div id="instruction" class="flex-item">
+        <div id="instruction" class="flex_item">
             <ul>
                 <li>請至少錄影10秒以上，影片才會正常播放</li>
                 <li class="only_chrome">只有「整個螢幕畫面」和「Chrome 分頁」可以分享音訊</li>
+                <li>
+                    <button id="mic_test">🎙️ 測試麥克風</button>
+                    <audio id="mic_test_audio" autoplay></audio>
+                </li>
             </ul>
 
         </div>

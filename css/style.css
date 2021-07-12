@@ -13,7 +13,7 @@ body {
     flex-direction: column;
 }
 
-.flex-item {
+.flex_item {
     margin: 0.3em 0;
 }
 
@@ -58,9 +58,9 @@ body {
 }
 
 #buttons {
-    text-align: center;
     position: relative;
     width: 45%;
+    text-align: center;
 }
 
 #download {
@@ -76,6 +76,10 @@ body {
     border-radius: 6px;
     background-color: #64B5F6;
     color: #000000;
+}
+
+#mic_test_countdown {
+    color: red;
 }
 
 #version {

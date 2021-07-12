@@ -87,3 +87,54 @@ function playBeep() {
 function startRecordTime() {
     startTime = Date.now();
 }
+
+// 綁定測試錄音播放結束恢復測試按鈕
+$("#mic_test_audio").on("ended ", function() {
+    $("#mic_test").html("🎙️ 測試麥克風");
+});
+
+// 綁定麥克風測試
+$("#mic_test").on("click", function() {
+    navigator.mediaDevices.getUserMedia({
+            video: false,
+            audio: true
+        })
+        .then(async function(micTestStream) {
+            let micTestStreamBlobs = [];
+            let micTestRecorderBlobs = [];
+
+            $("#mic_test").html('🛑 錄音中...<span id="mic_test_countdown"></span>');
+            const micTestRecorder = new MediaRecorder(micTestStream);
+            micTestRecorder.ondataavailable = (e) => micTestStreamBlobs.push(e.data);
+            micTestRecorder.onstop = async () => {
+                micTestRecorderBlobs = new Blob(micTestStreamBlobs, {
+                    type: 'audio/webm'
+                });
+
+                $("#mic_test_audio").prop({
+                    "src": URL.createObjectURL(micTestRecorderBlobs)
+                });
+            };
+
+            micTestRecorder.start();
+            let micTestLimit = 3;
+            const delay = (s) => {
+                return new Promise(function(resolve) {
+                    setTimeout(resolve, s);
+                });
+            };
+
+            for (let i = 0; i < micTestLimit; i++) {
+                $("#mic_test_countdown").html(micTestLimit - i);
+                await delay(1000);
+            }
+
+            micTestRecorder.stop();
+            $("#mic_test").html("🔊 播放中...");
+
+
+        })
+        .catch(function(error) {
+            showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);
+        });
+});

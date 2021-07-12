@@ -88,7 +88,7 @@ async function startRecord() {
             micStream = null;
         }
     } catch (e) {
-        showMessage("沒有取得麥克風，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);
+        showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);
     }
 
     // 混合系統聲音和麥克風聲音
@@ -152,7 +152,7 @@ async function startRecord() {
             "controls": "controls",
             "muted": "",
             "autoplay": ""
-        })
+        });
 
         $("#download_link").prop({
             "href": URL.createObjectURL(recorderBlobs),
