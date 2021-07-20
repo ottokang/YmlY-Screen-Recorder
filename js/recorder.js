@@ -1,11 +1,6 @@
 "use strict";
 
-var screenStream;
-var micStream;
-var stream;
-var streamBlobs;
 var recorder;
-var recorderBlobs;
 
 // 隱藏停止錄影、下載、錄影時間
 $("#stop_recorder_button").hide();
@@ -18,8 +13,24 @@ $("#start_recorder_button").on("click", async () => {
 });
 
 // 綁定停止錄影動作
-$("#stop_recorder_button").on("click", () => {
-    recorder.stop();
+$("#stop_recorder_button").on("click", async () => {
+    await recorder.stopRecording(function() {
+        let recorderBlobs = recorder.getBlob();
+
+        $("#preview_video").prop({
+            "srcObject": null,
+            "src": URL.createObjectURL(recorderBlobs),
+            "controls": "controls",
+            "muted": "",
+            "autoplay": ""
+        });
+
+        $("#download_link").prop({
+            "href": URL.createObjectURL(recorderBlobs),
+            "download": "螢幕錄影.webm"
+        });
+    });
+
     $("#start_recorder_button").html("重新錄影").show();
     $("#stop_recorder_button").hide();
     $("#download").show();
@@ -43,8 +54,8 @@ $("#preview_video").on("timeupdate", function() {
 
 // 開始錄影
 async function startRecord() {
-    recorderBlobs = [];
-    streamBlobs = [];
+    // 建立螢幕串流物件、麥克風物件
+    let screenStream, micStream;
 
     // 判斷聲音模式
     let isSystemAudio, isMicAudio
@@ -106,7 +117,7 @@ async function startRecord() {
 
     // 顯示預覽
     $("#preview_message").hide();
-    stream = new MediaStream(streamTracks);
+    let stream = new MediaStream(streamTracks);
     $("#preview_video").prop("srcObject", stream);
 
     // 先隱藏開始錄影、下載按鈕
@@ -125,8 +136,7 @@ async function startRecord() {
 
     // 設定錄影格式
     let recorderOptions = {
-        audioBitsPerSecond: 128000,
-        videoBitsPerSecond: 2500000
+        mimeType: 'video/webm'
     };
 
     switch ($("#video_format").val()) {
@@ -138,30 +148,9 @@ async function startRecord() {
             break;
     }
 
-    // 建立錄影物件
-    recorder = new MediaRecorder(stream, recorderOptions);
-    recorder.ondataavailable = (e) => streamBlobs.push(e.data);
-    recorder.onstop = async () => {
-        recorderBlobs = new Blob(streamBlobs, {
-            type: 'video/webm'
-        });
-
-        $("#preview_video").prop({
-            "srcObject": null,
-            "src": URL.createObjectURL(recorderBlobs),
-            "controls": "controls",
-            "muted": "",
-            "autoplay": ""
-        });
-
-        $("#download_link").prop({
-            "href": URL.createObjectURL(recorderBlobs),
-            "download": "螢幕錄影.webm"
-        });
-    }
-
     // 開始錄影
-    recorder.start();
+    recorder = RecordRTC(stream, recorderOptions);
+    recorder.startRecording();
 }
 
 // 混合系統聲音和麥克風聲音

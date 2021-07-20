@@ -55,12 +55,13 @@ async function recorderCountdown(seconds) {
         }, 2000);
 
         // 播放聲音
-        playBeep();
+        await playBeep();
+        await delay(800);
     }
 }
 
 // 播放提示音（參考：https://github.com/kapetan/browser-beep）
-function playBeep() {
+async function playBeep() {
     var audioContext = new window.AudioContext();
     var currentTime = audioContext.currentTime;
     var osc = audioContext.createOscillator();
