@@ -1,3 +1,5 @@
+"use strict";
+
 var messageTimeoutID;
 var startTime;
 var recorderTime;

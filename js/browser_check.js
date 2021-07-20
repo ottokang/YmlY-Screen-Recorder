@@ -1,10 +1,12 @@
-if (navigator.userAgent.indexOf("Chrome") != -1) {
+"use strict";
+
+if (isChrome) {
     // 設定 Chrome 聲音模式界面
     $("#audio_mode option[value='mic_system']").attr("selected", "selected");
 
     // 設定 Chrome 說明界面
     $(".only_chrome").show();
-} else if (navigator.userAgent.indexOf("Firefox") != -1) {
+} else if (isFirefox) {
     // 設定 Firefox 聲音模式界面
     $("#audio_mode option[value='mic_system']").attr("disabled", "disabled").html(function() {
         $(this).html($(this).html() + "（僅限 Chrome）");
