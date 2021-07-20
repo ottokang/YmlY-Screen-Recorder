@@ -132,7 +132,9 @@ async function startRecord() {
 
     // 顯示停止錄影按鈕、顯示錄影時間
     $("#stop_recorder_button").show();
-    $("#recorder_time").show();
+    window.setTimeout(function() {
+        $("#recorder_time").show();
+    }, 1000);
 
     // 設定錄影格式
     let recorderOptions = {

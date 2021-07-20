@@ -11,6 +11,7 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
+    flex-wrap: nowrap;
 }
 
 .flex_item {
@@ -18,8 +19,23 @@ body {
 }
 
 #preview {
+    position: relative;
     width: 45%;
     text-align: center;
+}
+
+#preview_video {
+    width: 100%;
+    border: 1px solid white;
+    background-color: #212121;
+}
+
+#recorder_time {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: red;
+    text-shadow: 1px 1px #333333;
 }
 
 #countdown_time,
@@ -37,24 +53,13 @@ body {
     font-size: 5em;
 }
 
-#recorder_time {
-    position: relative;
-    bottom: -2em;
-    width: 98%;
-    color: red;
-    text-align: right;
-    text-shadow: 1px 1px #333333;
-}
-
-#preview_video {
-    width: 100%;
-    border: 1px solid white;
-    background-color: #212121;
-}
-
 #message {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
     height: 1.6em;
     color: #FFB74D;
+    transform: translateX(-50%);
 }
 
 #buttons {
