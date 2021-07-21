@@ -14,17 +14,17 @@ $("#start_recorder_button").on("click", async () => {
 // 綁定停止錄影動作
 $("#stop_recorder_button").on("click", async () => {
     await recorder.stopRecording(function() {
-        getSeekableBlob(recorder.getBlob(), function(recorderBlobs) {
+        getSeekableBlob(recorder.getBlob(), function(seekableRecorderBlobs) {
             $("#preview_video").prop({
                 "srcObject": null,
-                "src": URL.createObjectURL(recorderBlobs),
+                "src": URL.createObjectURL(seekableRecorderBlobs),
                 "controls": "controls",
                 "muted": "",
                 "autoplay": ""
             });
 
             $("#download_link").prop({
-                "href": URL.createObjectURL(recorderBlobs),
+                "href": URL.createObjectURL(seekableRecorderBlobs),
                 "download": "螢幕錄影.webm"
             });
         });
@@ -36,11 +36,11 @@ $("#stop_recorder_button").on("click", async () => {
 });
 
 // 綁定下載按鈕動作
-$("#download_link").on("click", function() {
+$("#download_button").on("click", function() {
     if ($("#download_file_name").val().trim() === "") {
-        $(this).prop("download", "螢幕錄影.webm");
+        $("#download_link").prop("download", "螢幕錄影.webm");
     } else {
-        $(this).prop("download", $("#download_file_name").val().trim() + ".webm");
+        $("#download_link").prop("download", $("#download_file_name").val().trim() + ".webm");
     }
 });
 
