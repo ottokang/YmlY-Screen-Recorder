@@ -26,11 +26,11 @@ String.prototype.toHHMMSS = function() {
 // 顯示訊息
 function showMessage(text, countDown = null) {
     window.clearTimeout(messageTimeoutID);
-    $("#message").html(text);
+    $("#message").html(text).show();
 
     if (countDown !== null) {
         messageTimeoutID = window.setTimeout(function() {
-            $("#message").html("");
+            $("#message").hide("slow");
         }, countDown * 1000);
     }
 }

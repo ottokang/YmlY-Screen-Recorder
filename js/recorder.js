@@ -2,10 +2,9 @@
 
 var recorder;
 
-// 隱藏停止錄影、下載、錄影時間
-$("#stop_recorder_button").hide();
-$("#download").hide();
-$("#recorder_time").hide();
+// 隱藏停止錄影、下載、錄影時間、訊息
+$("#stop_recorder_button, #download, #recorder_time, #message").hide();
+
 
 // 綁定開始錄影動作
 $("#start_recorder_button").on("click", async () => {
@@ -15,26 +14,25 @@ $("#start_recorder_button").on("click", async () => {
 // 綁定停止錄影動作
 $("#stop_recorder_button").on("click", async () => {
     await recorder.stopRecording(function() {
-        let recorderBlobs = recorder.getBlob();
+        getSeekableBlob(recorder.getBlob(), function(recorderBlobs) {
+            $("#preview_video").prop({
+                "srcObject": null,
+                "src": URL.createObjectURL(recorderBlobs),
+                "controls": "controls",
+                "muted": "",
+                "autoplay": ""
+            });
 
-        $("#preview_video").prop({
-            "srcObject": null,
-            "src": URL.createObjectURL(recorderBlobs),
-            "controls": "controls",
-            "muted": "",
-            "autoplay": ""
-        });
-
-        $("#download_link").prop({
-            "href": URL.createObjectURL(recorderBlobs),
-            "download": "螢幕錄影.webm"
+            $("#download_link").prop({
+                "href": URL.createObjectURL(recorderBlobs),
+                "download": "螢幕錄影.webm"
+            });
         });
     });
 
     $("#start_recorder_button").html("重新錄影").show();
-    $("#stop_recorder_button").hide();
+    $("#stop_recorder_button, #recorder_time").hide();
     $("#download").show();
-    $("#recorder_time").hide();
 });
 
 // 綁定下載按鈕動作
@@ -99,7 +97,7 @@ async function startRecord() {
             micStream = null;
         }
     } catch (e) {
-        showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);
+        showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限<br><br>或是插入麥克風", 5);
     }
 
     // 混合系統聲音和麥克風聲音

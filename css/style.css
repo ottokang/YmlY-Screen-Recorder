@@ -57,8 +57,12 @@ body {
     position: absolute;
     bottom: 20%;
     left: 50%;
-    height: 1.6em;
-    color: #FFB74D;
+    padding: 5px;
+    width: 80%;
+    border-radius: 5px;
+    background-color: #424242;
+    color: #FAFAFA;
+    font-weight: bold;
     transform: translateX(-50%);
 }
 
