@@ -44,7 +44,7 @@ $("#download_button").on("click", function() {
     }
 });
 
-// 綁定預覽畫面時間改變動作
+// 綁定預覽畫面錄影時間改變動作
 $("#preview_video").on("timeupdate", function() {
     let recorderTime = Math.floor((Date.now() - startTime) / 1000);
     $("#recorder_time").html("錄影時間：" + recorderTime.toString().toHHMMSS());

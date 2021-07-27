@@ -2,26 +2,6 @@
 
 var messageTimeoutID;
 var startTime;
-var recorderTime;
-
-// 處理播放時間為時:分:秒
-String.prototype.toHHMMSS = function() {
-    let secondsNumber = Number.parseInt(this, 10);
-    let hours = Math.floor(secondsNumber / 3600);
-    let minutes = Math.floor((secondsNumber - (hours * 3600)) / 60);
-    let seconds = secondsNumber - (hours * 3600) - (minutes * 60);
-
-    if (hours < 10) {
-        hours = `0${hours}`;
-    }
-    if (minutes < 10) {
-        minutes = `0${minutes}`;
-    }
-    if (seconds < 10) {
-        seconds = `0${seconds}`;
-    }
-    return hours + ":" + minutes + ":" + seconds;
-}
 
 // 顯示訊息
 function showMessage(text, countDown = null) {
@@ -141,3 +121,22 @@ $("#mic_test").on("click", function() {
             showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);
         });
 });
+
+// 處理播放時間為時:分:秒
+String.prototype.toHHMMSS = function() {
+    let secondsNumber = Number.parseInt(this, 10);
+    let hours = Math.floor(secondsNumber / 3600);
+    let minutes = Math.floor((secondsNumber - (hours * 3600)) / 60);
+    let seconds = secondsNumber - (hours * 3600) - (minutes * 60);
+
+    if (hours < 10) {
+        hours = `0${hours}`;
+    }
+    if (minutes < 10) {
+        minutes = `0${minutes}`;
+    }
+    if (seconds < 10) {
+        seconds = `0${seconds}`;
+    }
+    return hours + ":" + minutes + ":" + seconds;
+}
