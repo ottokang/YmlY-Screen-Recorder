@@ -15,7 +15,7 @@ body {
 }
 
 .flex_item {
-    margin: 0.3em 0;
+    margin: 0.2em 0;
 }
 
 #preview {
@@ -87,7 +87,23 @@ body {
     color: #000000;
 }
 
-#mic_test_countdown {
+#options option {
+    font-weight: bold;
+}
+
+#options option:disabled {
+    color: #999999;
+}
+
+#instruction ul {
+    margin: 0 auto;
+}
+
+#instruction ul li {
+    padding: 3px 0;
+}
+
+#instruction #mic_test_countdown {
     color: red;
 }
 
