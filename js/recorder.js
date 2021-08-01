@@ -101,10 +101,15 @@ async function startRecord() {
     }
 
     // 混合系統聲音和麥克風聲音
-    const streamTracks = [
-        ...screenStream.getVideoTracks(),
-        ...mergeAudioStreams(screenStream, micStream)
-    ];
+    let streamTracks;
+    if (micStream !== null || (isSystemAudio !== false && isMicAudio !== false)) {
+        streamTracks = [
+            ...screenStream.getVideoTracks(),
+            ...mergeAudioStreams(screenStream, micStream)
+        ];
+    } else {
+        streamTracks = screenStream.getVideoTracks();
+    }
 
     // 設定預覽畫面
     $("#preview_video").prop({
