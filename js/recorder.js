@@ -145,11 +145,11 @@ async function startRecord() {
     };
 
     switch ($("#video_format").val()) {
-        case "h264":
-            recorderOptions.mimeType = 'video/webm;codecs=H264';
-            break;
         case "vp8":
             recorderOptions.mimeType = "video/webm";
+            break;
+        case "h264":
+            recorderOptions.mimeType = 'video/webm;codecs=H264';
             break;
     }
 

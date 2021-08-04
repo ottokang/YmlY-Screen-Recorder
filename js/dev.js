@@ -1,6 +1,6 @@
 "use strict";
 
-let isDevelopement = 0;
+var isDevelopement = 0;
 
 if (isDevelopement === 1) {
     // 顯示訊息
@@ -11,4 +11,6 @@ if (isDevelopement === 1) {
 
     // 顯示測試選項
     $(".dev").show();
+} else {
+    $(".dev").hide();
 }

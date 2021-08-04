@@ -35,14 +35,13 @@
                     <option value="no_sound">🔇無聲音</option>
                 </select>
             </div>
-            <div class="option_item">
+            <div class="option_item dev">
                 <label for="video_format">錄影格式：</label>
                 <select id="video_format">
                     <option value="vp8" selected>.webm (VP8+Opus)</option>
-                    <option value="h264" class="dev" selected>.webm (H.264+Opus)</option>
+                    <option value="h264">.webm (H.264+Opus)</option>
                 </select>
             </div>
-
             <div class="option_item">
                 <label for="recorder_countdown">錄影倒數：</label>
                 <select id="recorder_countdown">
@@ -54,7 +53,7 @@
         </div>
         <div id="instruction" class="flex_item">
             <ul>
-                <li>請至少錄影10秒以上，影片才會正常播放</li>
+                <li>請至少錄影 10 秒以上，影片才會正常播放</li>
                 <li class="only_chrome">只有「整個螢幕畫面」和「Chrome 分頁」可以分享音訊</li>
                 <li>
                     <button id="mic_test">🎙️測試麥克風</button>
