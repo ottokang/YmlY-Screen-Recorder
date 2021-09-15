@@ -20,7 +20,8 @@ if (isChrome) {
     $(".only_chrome").hide();
 }
 
-// 檢查是否支援錄影功能
-if (!("getDisplayMedia" in navigator.mediaDevices)) {
-    $("#message").html("無法使用錄影功能，請使用 Chrome、Firefox 瀏覽器");
+// 檢查是否支援錄影功能（排除行動裝置）
+if (navigator.userAgent.match(["Mobile"])) {
+    showMessage("行動裝置無法使用螢幕錄影功能<br>請使用桌機版 Chrome、Firefox 瀏覽器");
+    $(".not_supported").hide();
 }

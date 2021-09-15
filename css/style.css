@@ -46,6 +46,7 @@ body {
     text-shadow: 3px 3px #333333;
     font-size: 3em;
     transform: translateX(-50%);
+    width: 90%;
 }
 
 #countdown_time {
