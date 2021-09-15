@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>🖥️ 螢幕錄影-YmlY-Screen-Recorder</title>
+    <title>🖥️ 螢幕錄影 YmlY-Screen-Recorder</title>
     <link rel="stylesheet" type="text/css" href="css\style.css">
 </head>
 
@@ -12,6 +12,7 @@
         <div id="preview" class="flex_item">
             <video id="preview_video" autoplay muted></video>
             <div id="recorder_time"></div>
+            <div id="file_size"></div>
             <div id="countdown_time"></div>
             <div id="preview_message" class="not_supported">螢幕錄影預覽畫面</div>
             <div id="message" class="flex_item"></div>
@@ -20,8 +21,8 @@
             <div id="start_recorder_button" class="control_button">開始錄影</div>
             <div id="stop_recorder_button" class="control_button">停止錄影</div>
             <br>
-            <div id="download">
-                <input id="download_file_name" type="text" placeholder="設定下載檔名">
+            <div id="download" class="dev">
+                <input id="download_file_name" type="text" placeholder="設定下載檔名" size="10">
                 <div id="download_button" class="control_button"><a id="download_link">下載</a></div>
             </div>
         </div>

@@ -3,8 +3,7 @@
 var recorder;
 
 // 隱藏停止錄影、下載、錄影時間、訊息
-$("#stop_recorder_button, #download, #recorder_time, #message").hide();
-
+$("#stop_recorder_button, #download, #recorder_time, #file_size, #message").hide();
 
 // 綁定開始錄影動作
 $("#start_recorder_button").on("click", async () => {
@@ -28,10 +27,13 @@ $("#stop_recorder_button").on("click", async () => {
                 "download": "螢幕錄影.webm"
             });
         });
+
+        $("#file_size").html("檔案大小：" + bytesToSize(recorder.getBlob().size)).show();
     });
 
     $("#start_recorder_button").html("重新錄影").show();
     $("#stop_recorder_button, #recorder_time").hide();
+
     $("#download").show();
 });
 
@@ -123,9 +125,9 @@ async function startRecord() {
     let stream = new MediaStream(streamTracks);
     $("#preview_video").prop("srcObject", stream);
 
-    // 先隱藏開始錄影、下載按鈕
+    // 先隱藏開始錄影、下載按鈕、檔案大小
     $("#start_recorder_button").hide();
-    $("#download").hide();
+    $("#download, #file_size").hide();
 
     // 開始倒數計時
     await recorderCountdown($("#recorder_countdown").val());

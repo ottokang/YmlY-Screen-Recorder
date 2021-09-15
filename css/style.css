@@ -30,11 +30,20 @@ body {
     background-color: #212121;
 }
 
-#recorder_time {
+#recorder_time,
+#file_size {
     position: absolute;
     top: 10px;
     right: 10px;
     color: red;
+    text-shadow: 1px 1px #333333;
+}
+
+#file_size {
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #455A64;
+    color: #FFA726;
     text-shadow: 1px 1px #333333;
 }
 
@@ -43,10 +52,10 @@ body {
     position: absolute;
     top: 10%;
     left: 50%;
-    text-shadow: 3px 3px #333333;
-    font-size: 3em;
-    transform: translateX(-50%);
     width: 90%;
+    text-shadow: 3px 3px #333333;
+    font-size: 2em;
+    transform: translateX(-50%);
 }
 
 #countdown_time {
