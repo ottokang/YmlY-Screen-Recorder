@@ -14,8 +14,7 @@
 
 ## 使用方式
 
-* 直接線上使用：[https://ottokang.github.io/YmlY-Screen-Recorder/](https://ottokang.github.io/YmlY-Screen-Recorder/)
-* 下載後以瀏覽器開啟 index.html 檔案
+* 直接線上使用：[https://ottokang.github.io/YmlY-Screen-Recorder/](https://ottokang.github.io/YmlY-Screen-Recorder/) 
 
 ## YmlY 是什麼？
 
