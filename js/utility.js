@@ -29,6 +29,7 @@ async function recorderCountdown(seconds) {
         let countdownSeconds = Number.parseInt(seconds);
         for (let i = 0; i < countdownSeconds; i++) {
             $("#countdown_time").html(countdownSeconds - i);
+            playBeep(300)
             await delay(1000);
         }
         $("#countdown_time").html("開始錄影");
@@ -37,13 +38,13 @@ async function recorderCountdown(seconds) {
         }, 2000);
 
         // 播放聲音
-        await playBeep();
+        await playBeep(800);
         await delay(800);
     }
 }
 
 // 播放提示音（參考：https://github.com/kapetan/browser-beep）
-async function playBeep() {
+async function playBeep(frequency = 440) {
     var audioContext = new window.AudioContext();
     var currentTime = audioContext.currentTime;
     var osc = audioContext.createOscillator();
@@ -61,7 +62,7 @@ async function playBeep() {
     }
 
     osc.type = 'sine';
-    osc.frequency.value = 440;
+    osc.frequency.value = frequency;
     osc.start(currentTime);
     osc.stop(currentTime + 1);
 }
