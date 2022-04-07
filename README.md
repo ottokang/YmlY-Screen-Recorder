@@ -3,18 +3,18 @@
 ## 功能特色
 
 * 透過瀏覽器錄製螢幕畫面
-* 可同時錄製系統聲音（Chrome）、麥克風聲音
+* 同時錄製系統聲音（僅限 Chrome）、麥克風聲音
 * 倒數計時後錄影
 
 ## 支援瀏覽器
 
-* 電腦版 Google Chrome 或 Microsoft Edge、Brave 等 Chromium 核心瀏覽器
+* 電腦版 Google Chrome 或 Microsoft Edge 等 Blink 核心瀏覽器
 * 電腦版 Firefox
 * <尚未支援行動瀏覽器>
 
 ## 使用方式
 
-* 直接線上使用：[https://ottokang.github.io/YmlY-Screen-Recorder/](https://ottokang.github.io/YmlY-Screen-Recorder/) 
+* 直接線上使用：[https://ottokang.github.io/YmlY-Screen-Recorder/](https://ottokang.github.io/YmlY-Screen-Recorder/)
 
 ## YmlY 是什麼？
 
