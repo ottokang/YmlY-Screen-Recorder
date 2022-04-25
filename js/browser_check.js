@@ -20,8 +20,12 @@ if (isChrome) {
     $(".only_chrome").hide();
 }
 
-// 檢查是否支援錄影功能（排除行動裝置）
-if (navigator.userAgent.match(["Mobile"])) {
-    showMessage("行動裝置無法使用螢幕錄影功能<br>請使用桌機版 Chrome、Firefox 瀏覽器");
+// 排除 Safari
+if (isSafari) {
+    showMessage("不支援 Safari 瀏覽器<br>請使用 Windows 桌機版 Chrome、Firefox 瀏覽器");
+    $(".not_supported").hide();
+} else if (navigator.userAgent.match(["Mobile"])) {
+    // 排除行動裝置
+    showMessage("行動裝置無法使用螢幕錄影功能<br>請使用 Windows 桌機版 Chrome、Firefox 瀏覽器");
     $(".not_supported").hide();
 }

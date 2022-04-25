@@ -67,10 +67,10 @@ body {
     position: absolute;
     bottom: 20%;
     left: 50%;
-    padding: 5px;
+    padding: 8px;
     width: 80%;
     border-radius: 5px;
-    background-color: #F50057;
+    background-color: #880E4F;
     color: #FAFAFA;
     font-weight: bold;
     transform: translateX(-50%);
