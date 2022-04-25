@@ -55,7 +55,11 @@ $("#preview_video").on("timeupdate", function() {
 // 開始錄影
 async function startRecord() {
     // 建立螢幕串流物件、麥克風物件
-    let screenStream, micStream;
+    let screenStream = null,
+        micStream = null;
+
+    // 清除訊息
+    clearMessage();
 
     // 判斷聲音模式
     let isSystemAudio, isMicAudio
@@ -89,29 +93,29 @@ async function startRecord() {
         return;
     }
 
+    if (screenStream.getAudioTracks().length === 0 && isSystemAudio === true) {
+        showMessage("沒有勾選分享系統音訊，請重新點選錄影後勾選");
+        return;
+    }
+
     try {
         if (isMicAudio === true) {
             micStream = await navigator.mediaDevices.getUserMedia({
                 video: false,
                 audio: true
             });
-        } else {
-            micStream = null;
         }
     } catch (e) {
-        showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限<br><br>或是插入麥克風", 5);
+        showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限<br><br>或是插入麥克風後重啟瀏覽器");
+        return;
     }
 
     // 混合系統聲音和麥克風聲音
     let streamTracks;
-    if (micStream !== null || (isSystemAudio !== false && isMicAudio !== false)) {
-        streamTracks = [
-            ...screenStream.getVideoTracks(),
-            ...mergeAudioStreams(screenStream, micStream)
-        ];
-    } else {
-        streamTracks = screenStream.getVideoTracks();
-    }
+    streamTracks = [
+        ...screenStream.getVideoTracks(),
+        ...mergeAudioStreams(screenStream, micStream)
+    ];
 
     // 設定預覽畫面
     $("#preview_video").prop({
@@ -165,14 +169,14 @@ function mergeAudioStreams(screenStream, micStream) {
     const context = new AudioContext();
     const mergeDestination = context.createMediaStreamDestination();
 
-    if (screenStream && screenStream.getAudioTracks().length > 0) {
+    if (screenStream.getAudioTracks().length > 0) {
         const source1 = context.createMediaStreamSource(screenStream);
         const systemAudioGain = context.createGain();
         systemAudioGain.gain.value = 0.75;
         source1.connect(systemAudioGain).connect(mergeDestination);
     }
 
-    if (micStream && micStream.getAudioTracks().length > 0) {
+    if (micStream !== null && micStream.getAudioTracks().length > 0) {
         const source1 = context.createMediaStreamSource(micStream);
         const micAudioGain = context.createGain();
         micAudioGain.gain.value = 0.75;

@@ -15,6 +15,11 @@ function showMessage(text, countDown = null) {
     }
 }
 
+// 清除訊息
+function clearMessage() {
+    $("#message").html("").hide();
+}
+
 // 倒數計時
 async function recorderCountdown(seconds) {
     const delay = (s) => {
