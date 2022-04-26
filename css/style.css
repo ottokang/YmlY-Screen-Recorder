@@ -113,6 +113,15 @@ body {
     padding: 3px 0;
 }
 
+#instruction ul li b {
+    color: #F9A825;
+}
+
+#instruction ul li a:link,
+#instruction ul li a:visited {
+    color: #2196F3;
+}
+
 #instruction #mic_test_countdown {
     color: red;
 }
