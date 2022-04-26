@@ -1,6 +1,6 @@
 "use strict";
 
-var isDevelopement = 1;
+var isDevelopement = 0;
 var disalbeRecordLog = true;
 
 if (isDevelopement === 1) {
