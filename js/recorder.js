@@ -147,7 +147,8 @@ async function startRecord() {
 
     // 設定錄影格式
     let recorderOptions = {
-        mimeType: 'video/webm'
+        mimeType: 'video/webm',
+        disableLogs: disalbeRecordLog,
     };
 
     switch ($("#video_format").val()) {
@@ -177,10 +178,10 @@ function mergeAudioStreams(screenStream, micStream) {
     }
 
     if (micStream !== null && micStream.getAudioTracks().length > 0) {
-        const source1 = context.createMediaStreamSource(micStream);
+        const source2 = context.createMediaStreamSource(micStream);
         const micAudioGain = context.createGain();
-        micAudioGain.gain.value = 0.75;
-        source1.connect(micAudioGain).connect(mergeDestination);
+        micAudioGain.gain.value = 1;
+        source2.connect(micAudioGain).connect(mergeDestination);
     }
 
     return mergeDestination.stream.getAudioTracks();
