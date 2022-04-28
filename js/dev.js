@@ -1,7 +1,6 @@
 "use strict";
 
 var isDevelopement = 0;
-var disalbeRecordLog = true;
 
 if (isDevelopement === 1) {
     // 顯示測試用訊息
@@ -18,9 +17,6 @@ if (isDevelopement === 1) {
 
     // 顯示測試選項
     $(".dev").show();
-
-    // 設定 RecordRTC 開啟紀錄
-    disalbeRecordLog = false;
 } else {
     $(".dev").hide();
 }

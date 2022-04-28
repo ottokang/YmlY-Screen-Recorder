@@ -112,10 +112,14 @@ async function startRecord() {
 
     // 混合系統聲音和麥克風聲音
     let streamTracks;
-    streamTracks = [
-        ...screenStream.getVideoTracks(),
-        ...mergeAudioStreams(screenStream, micStream)
-    ];
+    if (isMicAudio === false && isSystemAudio === false) {
+        streamTracks = screenStream.getVideoTracks();
+    } else {
+        streamTracks = [
+            ...screenStream.getVideoTracks(),
+            ...mergeAudioStreams(screenStream, micStream)
+        ];
+    }
 
     // 設定預覽畫面
     $("#preview_video").prop({
@@ -148,7 +152,7 @@ async function startRecord() {
     // 設定錄影格式
     let recorderOptions = {
         mimeType: 'video/webm',
-        disableLogs: disalbeRecordLog,
+        disableLogs: false,
     };
 
     switch ($("#video_format").val()) {
