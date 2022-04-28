@@ -90,12 +90,19 @@ async function startRecord() {
         });
     } catch (e) {
         showMessage("請重新整理網頁，允許瀏覽器分享畫面");
+        console.log(e.message);
         return;
     }
+    console.log(screenStream.getTracks());
 
-    if (screenStream.getAudioTracks().length === 0 && isSystemAudio === true) {
-        showMessage("沒有勾選分享系統音訊，請重新點選錄影後勾選");
-        return;
+    // 判斷是否為視窗模式、是否有勾選錄製系統聲音
+    if (isSystemAudio === true) {
+        if (screenStream.getVideoTracks()[0].label.includes("window:")) {
+            showMessage("你有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇整個畫面或者分頁，才能錄製聲音", 10);
+        } else if (screenStream.getAudioTracks().length === 0 && isSystemAudio === true) {
+            showMessage("沒有勾選分享系統音訊，請重新點選錄影後勾選");
+            return;
+        }
     }
 
     try {
@@ -106,7 +113,8 @@ async function startRecord() {
             });
         }
     } catch (e) {
-        showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限<br><br>或是插入麥克風後重啟瀏覽器");
+        showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器使用麥克風<br><br>或是插入麥克風後重啟瀏覽器");
+        console.log(e.message);
         return;
     }
 
