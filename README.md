@@ -10,7 +10,8 @@
 
 * Windows 桌機版 Google Chrome 或 Microsoft Edge 等 Blink 核心瀏覽器
 * Windows 桌機版 Firefox
-* <尚未支援行動瀏覽器、桌機版 Safari>
+* MacOS 版 Chrome
+* <尚未支援行動瀏覽器、Safari>
 
 ## 使用方式
 
