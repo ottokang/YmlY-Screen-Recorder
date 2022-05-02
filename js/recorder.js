@@ -121,7 +121,13 @@ async function startRecord() {
 
     // 混合系統聲音和麥克風聲音
     let streamTracks;
-    if (isMicAudio === false && isSystemAudio === false) {
+    let hasMicAudio = true;
+
+    if (micStream === null || micStream.getAudioTracks().length === 0) {
+        hasMicAudio = false;
+    }
+
+    if (screenStream.getAudioTracks().length === 0 && hasMicAudio === false) {
         streamTracks = screenStream.getVideoTracks();
     } else {
         streamTracks = [
