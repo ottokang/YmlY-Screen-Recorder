@@ -1,5 +1,14 @@
 "use strict";
 
+var isMacChrome = false;
+
+// 偵測是否為 Mac 版 Chrome
+if (isChrome === true) {
+    if (navigator.userAgentData.platform.includes("mac")) {
+        isMacChrome = true;
+    }
+}
+
 if (isChrome === true) {
     // 設定 Chrome 說明界面
     $(".only_chrome").show();

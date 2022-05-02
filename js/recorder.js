@@ -93,12 +93,13 @@ async function startRecord() {
         console.log(e.message);
         return;
     }
-    console.log(screenStream.getTracks());
 
     // 判斷是否為視窗模式、是否有勾選錄製系統聲音
     if (isSystemAudio === true) {
         if (screenStream.getVideoTracks()[0].label.includes("window:")) {
-            showMessage("你有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇整個畫面或者分頁，才能錄製聲音", 10);
+            showMessage("你有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇分享整個畫面或者分頁，才能錄製聲音", 10);
+        } else if (isMacChrome) {
+            showMessage("你有勾選錄製系統聲音，但是 MacOS 版 Chrome 整個畫面無法分享系統聲音<br><br>如果要錄製系統聲音，請重新選擇分享分頁，才能錄製聲音", 10);
         } else if (screenStream.getAudioTracks().length === 0 && isSystemAudio === true) {
             showMessage("沒有勾選分享系統音訊，請重新點選錄影後勾選");
             return;
