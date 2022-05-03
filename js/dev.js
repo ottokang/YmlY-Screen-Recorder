@@ -15,6 +15,9 @@ if (isDevelopement === 1) {
         recorderCountdown(3);
     });
 
+    // 顯示瀏覽器專用專用項目
+    $("[class*=only_]").show();
+
     // 顯示測試選項
     $(".dev").show();
 } else {

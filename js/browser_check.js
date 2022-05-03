@@ -1,12 +1,27 @@
 "use strict";
 
 var isMacChrome = false;
+var isMacFirefox = false;
 
 // 偵測是否為 Mac 版 Chrome
 if (isChrome === true) {
     if (navigator.userAgentData.platform.includes("mac")) {
         isMacChrome = true;
     }
+}
+
+// 偵測是否為 Mac 版 Chrome
+if (isFirefox === true) {
+    if (navigator.userAgentData.platform.includes("Mac")) {
+        isMacFirefox = true;
+    }
+}
+
+// 顯示 Mac 版說明
+if (isMacChrome === true || isMacFirefox === true) {
+    $(".only_mac").show();
+} else {
+    $(".only_mac").hide();
 }
 
 if (isChrome === true) {

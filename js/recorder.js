@@ -89,7 +89,11 @@ async function startRecord() {
             audio: isSystemAudio
         });
     } catch (e) {
-        showMessage("請重新整理網頁，允許瀏覽器分享畫面");
+        if (e.message.includes("audio source")) {
+            showMessage("沒有音訊裝置，請選擇聲音模式為無聲音後重新錄影");
+        } else {
+            showMessage("請重新整理網頁，允許瀏覽器分享畫面");
+        }
         console.log(e.message);
         return;
     }
@@ -99,7 +103,7 @@ async function startRecord() {
         if (screenStream.getVideoTracks()[0].label.includes("window:")) {
             showMessage("你有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇分享整個畫面或者分頁，才能錄製聲音", 10);
         } else if (isMacChrome) {
-            showMessage("你有勾選錄製系統聲音，但是 MacOS 版 Chrome 整個畫面無法分享系統聲音<br><br>如果要錄製系統聲音，請重新選擇分享分頁，才能錄製聲音", 10);
+            showMessage("你有勾選錄製系統聲音，但是 MacOS 版 Chrome 分享整個螢幕畫面無法分享系統聲音<br><br>如果要錄製系統聲音，請重新選擇分享分頁，才能錄製聲音", 10);
         } else if (screenStream.getAudioTracks().length === 0 && isSystemAudio === true) {
             showMessage("沒有勾選分享系統音訊，請重新點選錄影後勾選");
             return;
