@@ -10,9 +10,9 @@ if (isChrome === true) {
     }
 }
 
-// 偵測是否為 Mac 版 Chrome
+// 偵測是否為 Mac 版 Firefox（navigator.platform 預計快棄用，之後修正為 Chrome 版的方式）
 if (isFirefox === true) {
-    if (navigator.userAgentData.platform.includes("Mac")) {
+    if (navigator.platform.includes("Mac")) {
         isMacFirefox = true;
     }
 }
