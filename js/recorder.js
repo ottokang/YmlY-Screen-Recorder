@@ -33,8 +33,12 @@ $("#stop_recorder_button").on("click", async () => {
 
     $("#start_recorder_button").html("重新錄影").show();
     $("#stop_recorder_button, #recorder_time").hide();
-
     $("#download").show();
+
+    // 停止錄影後釋出 recorder
+    if (isDevelopement === false) {
+        recorder = null;
+    }
 });
 
 // 綁定下載按鈕動作
@@ -171,6 +175,7 @@ async function startRecord() {
     // 設定錄影格式
     let recorderOptions = {
         mimeType: 'video/webm',
+        recorderType: MediaStreamRecorder,
         disableLogs: false,
     };
 

@@ -1,8 +1,8 @@
 "use strict";
 
-var isDevelopement = 0;
+var isDevelopement = false;
 
-if (isDevelopement === 1) {
+if (isDevelopement === true) {
     // 顯示測試用訊息
     $("#recorder_time").html("錄影時間測試").show();
     $("#countdown_time").html("倒數時間").show();
