@@ -56,7 +56,7 @@
         <div id="instruction" class="flex_item not_supported">
             <ul>
                 <li>請至少錄影 10 秒以上，影片才會正常播放；錄影上限約 1.5 小時，再注意錄影時間。</li>
-                <li class="only_chrome">錄影整個螢幕畫面時，若要錄製系統聲音，請記得勾選<b>分享系統音訊</b>。</li>
+                <li class="only_chrome">錄影整個螢幕畫面時，若要錄製系統聲音，請記得勾選<b id="share_audio_tutorial_link">分享系統音訊</b>。</li>
                 <li>錄影格式為 webm 檔案，建議上傳至 <a href="https://www.youtube.com/" target="_blank">YouTube</a> 分享。</li>
                 <li class="only_mac">Mac 螢幕錄影、麥克風權限請到「設定：安全與隱私」中確認是否開啟。</li>
                 <li>
@@ -68,6 +68,11 @@
                 </li>
             </ul>
         </div>
+        <dialog id="share_audio_tutorial" open>
+            <button id="share_audio_tutorial_close">關閉❌</button>
+            <button id="share_audio_tutorial_replay">重新播放🔁</button>
+            <video id="share_audio_tutorial_video" src="media/share_system_sound_tutorial.mp4" autoplay></video>
+        </dialog>
     </div>
     <div id="version">
         <a href="https://github.com/ottokang/SW-Screen-Recorder">GitHub 專案網站</a>
@@ -76,6 +81,7 @@
     <script src="js/RecordRTC.min.js"></script>
     <script src="js/EBML.js"></script>
     <script src="js/utility.js"></script>
+    <script src="js/share_audio_tutorial.js"></script>
     <script src="js/recorder.js"></script>
     <script src="js/browser_check.js"></script>
     <script src="js/dev.js"></script>
