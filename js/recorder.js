@@ -53,9 +53,11 @@ $("#preview_video").on("timeupdate", function() {
 
 // 開始錄影
 async function startRecord() {
-    // 建立螢幕串流物件、麥克風物件
+    // 建立螢幕串流物件、麥克風物件、是否有麥克風音訊、是否有系統音訊
     let screenStream = null,
-        micStream = null;
+        micStream = null,
+        hasMicAudio = false,
+        hasSystemAudio = false;
 
     // 清除訊息
     clearMessage();
@@ -81,6 +83,10 @@ async function startRecord() {
             break;
     }
 
+    // 同步聲音模式判斷
+    hasMicAudio = isMicAudio;
+    hasSystemAudio = isSystemAudio;
+
     // 建立螢幕錄影、錄音物件
     try {
         screenStream = await navigator.mediaDevices.getDisplayMedia({
@@ -101,8 +107,10 @@ async function startRecord() {
     if (isSystemAudio === true) {
         if (screenStream.getVideoTracks()[0].label.includes("window:")) {
             showMessage("你有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇分享整個畫面或者分頁，才能錄製聲音", 10);
+            hasSystemAudio = false;
         } else if (isMacChrome) {
             showMessage("你有勾選錄製系統聲音，但是 MacOS 版 Chrome 分享整個螢幕畫面無法分享系統聲音<br><br>如果要錄製系統聲音，請重新選擇分享分頁，才能錄製聲音", 10);
+            hasSystemAudio = false;
         } else if (screenStream.getAudioTracks().length === 0 && isSystemAudio === true) {
             showMessage("沒有勾選分享系統音訊，請重新點選錄影後勾選");
             return;
@@ -124,19 +132,14 @@ async function startRecord() {
 
     // 混合系統聲音和麥克風聲音
     let streamTracks;
-    let hasMicAudio = true;
 
-    if (micStream === null || micStream.getAudioTracks().length === 0) {
-        hasMicAudio = false;
-    }
-
-    if (screenStream.getAudioTracks().length === 0 && hasMicAudio === false) {
-        streamTracks = screenStream.getVideoTracks();
-    } else {
+    if (hasMicAudio === true || hasSystemAudio === true) {
         streamTracks = [
             ...screenStream.getVideoTracks(),
             ...mergeAudioStreams(screenStream, micStream)
         ];
+    } else {
+        streamTracks = screenStream.getVideoTracks();
     }
 
     // 設定預覽畫面
@@ -203,7 +206,7 @@ function mergeAudioStreams(screenStream, micStream) {
     if (micStream !== null && micStream.getAudioTracks().length > 0) {
         const source2 = context.createMediaStreamSource(micStream);
         const micAudioGain = context.createGain();
-        micAudioGain.gain.value = 1;
+        micAudioGain.gain.value = 1.5;
         source2.connect(micAudioGain).connect(mergeDestination);
     }
 
