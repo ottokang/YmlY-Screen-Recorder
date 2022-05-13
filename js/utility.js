@@ -94,6 +94,8 @@ $("#mic_test").on("click", function() {
 
             $("#mic_test").html('🛑 錄音中...<span id="mic_test_countdown"></span>');
             const micTestRecorder = new MediaRecorder(micTestStream);
+
+            // 設定有錄音資料處理函數、停止錄音處理函數
             micTestRecorder.ondataavailable = (e) => micTestStreamBlobs.push(e.data);
             micTestRecorder.onstop = async () => {
                 micTestRecorderBlobs = new Blob(micTestStreamBlobs, {
@@ -105,6 +107,7 @@ $("#mic_test").on("click", function() {
                 });
             };
 
+            // 開始錄音
             micTestRecorder.start();
             let micTestLimit = 3;
             const delay = (s) => {
@@ -113,6 +116,7 @@ $("#mic_test").on("click", function() {
                 });
             };
 
+            // 更新倒數秒數
             for (let i = 0; i < micTestLimit; i++) {
                 $("#mic_test_countdown").html(micTestLimit - i);
                 await delay(1000);
@@ -120,11 +124,10 @@ $("#mic_test").on("click", function() {
 
             micTestRecorder.stop();
             $("#mic_test").html("🔊 播放中...");
-
-
         })
-        .catch(function(error) {
+        .catch(function(e) {
             showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);
+            console.log(e.message);
         });
 });
 

@@ -1,6 +1,5 @@
 // 顯示分享音訊說明
 function showShareTutorial() {
-    $("#share_audio_tutorial_video").css("opacity", 1);
     $("#share_audio_tutorial").fadeIn();
     $("#share_audio_tutorial_video")[0].currentTime = 0;
     $("#share_audio_tutorial_video")[0].play();
@@ -15,7 +14,6 @@ function hideShareTutorial() {
 
 // 綁定重新播放按鈕
 $("#share_audio_tutorial_replay").on("click", function() {
-    $("#share_audio_tutorial_video").css("opacity", 1);
     $("#share_audio_tutorial_video")[0].currentTime = 0;
     $("#share_audio_tutorial_video")[0].play();
 })
@@ -37,8 +35,8 @@ $("#share_audio_tutorial_video").on("playing", function() {
 
     }
 })
+
 // 綁定播放後顯示重新播放按鈕
 $("#share_audio_tutorial_video").on("ended", function() {
-    $("#share_audio_tutorial_video").css("opacity", 0.2);
     $("#share_audio_tutorial_replay").show();
 })

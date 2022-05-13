@@ -142,11 +142,10 @@ body {
 }
 
 #share_audio_tutorial {
-    padding: 2px;
+    padding: 0;
     width: 50%;
-    border: 2px solid #303F9F;
+    border: 4px solid #F57C00;
     border-radius: 5px;
-    background-color: #424242;
 }
 
 #share_audio_tutorial_close {
@@ -167,6 +166,7 @@ body {
 
 #share_audio_tutorial_video {
     width: 100%;
+    display: block;
 }
 
 #share_audio_tutorial_link {
