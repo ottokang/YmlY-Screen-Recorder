@@ -82,12 +82,6 @@ body {
     text-align: center;
 }
 
-#download {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
 #options .option_item {
     margin-bottom: 1em;
     padding: 8px;
@@ -142,10 +136,11 @@ body {
 }
 
 #share_audio_tutorial {
-    padding: 0;
+    padding: 0px;
     width: 50%;
-    border: 4px solid #F57C00;
+    border: 3px solid #616161;
     border-radius: 5px;
+    box-shadow: 5px 5px 5px #616161;
 }
 
 #share_audio_tutorial_close {
@@ -153,6 +148,7 @@ body {
     top: 10px;
     right: 10px;
     z-index: 1;
+    font-size: small;
 }
 
 #share_audio_tutorial_replay {
@@ -165,8 +161,8 @@ body {
 }
 
 #share_audio_tutorial_video {
-    width: 100%;
     display: block;
+    width: 100%;
 }
 
 #share_audio_tutorial_link {

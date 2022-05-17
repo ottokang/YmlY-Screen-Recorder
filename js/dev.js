@@ -1,6 +1,7 @@
 "use strict";
 
 var isDevelopement = false;
+//var isDevelopement = true;
 
 if (isDevelopement === true) {
     // 顯示測試用訊息

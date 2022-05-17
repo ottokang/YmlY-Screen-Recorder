@@ -47,6 +47,13 @@
     background-color: #C62828;
 }
 
+#download {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: right;
+}
+
 #download_button {
     background-color: #1976D2;
     color: #ecf0f1;
@@ -58,8 +65,39 @@
     background-color: #1565C0;
 }
 
+#download_button.pressed {
+    background-color: #1A237E;
+}
+
 #download_file_name {
     float: left;
     margin: 8px;
     line-height: 2em;
+}
+
+#download_option {
+    display: none;
+    border: 1px solid #f0e7e7;
+    background-color: #616161;
+    transform: translateX(50%);
+}
+
+#download_option a {
+    display: block;
+    color: #ecf0f1;
+    text-decoration: none;
+}
+
+#download_option #download_direct,
+#download_option #download_rename {
+    padding: 5px;
+    text-align: left;
+    cursor: pointer;
+}
+
+#download_option #download_direct:hover,
+#download_option #download_rename:hover {
+    background-color: #1976D2;
+    color: #ecf0f1;
+    font-weight: bold;
 }

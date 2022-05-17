@@ -22,9 +22,9 @@ $("#stop_recorder_button").on("click", async () => {
                 "autoplay": ""
             });
 
-            $("#download_link").prop({
-                "href": URL.createObjectURL(seekableRecorderBlobs),
-                "download": "螢幕錄影.webm"
+            $("#download_direct").prop({
+                "href": URL.createObjectURL(seekableRecorderBlobs)
+                //"download": "螢幕錄影.webm"
             });
         });
 
@@ -38,11 +38,43 @@ $("#stop_recorder_button").on("click", async () => {
 
 // 綁定下載按鈕動作
 $("#download_button").on("click", function() {
-    if ($("#download_file_name").val().trim() === "") {
-        $("#download_link").prop("download", "螢幕錄影.webm");
+    $(this).toggleClass("pressed");
+    $("#download_option").slideToggle(350);
+});
+
+// 綁定直接下載按鈕動作
+$("#download_direct").on("click", function() {
+    // 設定下載檔案日期時間資訊
+    if ($("#download_filename").val() === "") {
+        const date = new Date();
+        let yearString = date.getFullYear();
+        let monthString = String(date.getMonth() + 1).padStart(2, "0");
+        let dateString = String(date.getDate()).padStart(2, "0");
+        let hourString = String(date.getHours()).padStart(2, "0");
+        let minuteSring = String(date.getMinutes()).padStart(2, "0");
+        let fileDateString = `${yearString}-${monthString}-${dateString} ${hourString}-${minuteSring}`
+        $("#download_direct").prop("download", `螢幕錄影 ${fileDateString}.webm`)
     } else {
-        $("#download_link").prop("download", $("#download_file_name").val().trim() + ".webm");
+        // 驗證檔名（尚未實做）
+        let fileName = $("#download_filename").val();
+        $("#download_direct").prop("download", `${fileName}.webm`)
     }
+});
+
+// 綁定重新命名下載動作
+$("#download_rename").on("click", function() {
+    $("#download_rename_dialog")[0].showModal();
+});
+
+// 綁定下載重新命名的檔名
+$("#download_rename_button").on("click", function() {
+    $("#download_direct")[0].click();
+});
+
+// 綁定取消重新命名下載動作
+$("#download_rename_cancel").on("click", function() {
+    $("#download_filename").val("");
+    $("#download_rename_dialog")[0].close();
 });
 
 // 綁定預覽畫面錄影時間改變動作
