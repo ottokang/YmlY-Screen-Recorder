@@ -24,7 +24,6 @@ $("#stop_recorder_button").on("click", async () => {
 
             $("#download_direct").prop({
                 "href": URL.createObjectURL(seekableRecorderBlobs)
-                //"download": "螢幕錄影.webm"
             });
         });
 
@@ -55,9 +54,8 @@ $("#download_direct").on("click", function() {
         let fileDateString = `${yearString}-${monthString}-${dateString} ${hourString}-${minuteSring}`
         $("#download_direct").prop("download", `螢幕錄影 ${fileDateString}.webm`)
     } else {
-        // 驗證檔名（尚未實做）
-        let fileName = $("#download_filename").val();
-        $("#download_direct").prop("download", `${fileName}.webm`)
+        // 下載修改過檔名的檔案
+        $("#download_direct").prop("download", `${$("#download_filename").val().trim()}.webm`)
     }
 });
 
@@ -68,12 +66,37 @@ $("#download_rename").on("click", function() {
 
 // 綁定下載重新命名的檔名
 $("#download_rename_button").on("click", function() {
+    // 驗證檔名
+    let fileName = $("#download_filename").val().trim();
+    let error_massage = null;
+
+    if (fileName === "") {
+        // 是否空白
+        error_massage = "檔名不可空白";
+    } else if (fileName.length > 255) {
+        // 是否超過 255 個字元
+        error_massage = "檔名不可過長";
+    } else if (/^[^\\/:\*\?"<>\|]+$/.test(fileName) === false) {
+        // 請勿使用 \ / : * ? " < > |
+        error_massage = `請勿使用 \ / : * ? " < > | 字元`;
+    }
+
+    // 處理錯誤訊息
+    if (error_massage !== null) {
+        $("#download_filename_error_message").html(error_massage);
+        $("#download_filename")[0].focus();
+        return;
+    }
+
     $("#download_direct")[0].click();
+    // 下載後結束對話框，清除內容
+    $("#download_rename_cancel")[0].click();
 });
 
 // 綁定取消重新命名下載動作
 $("#download_rename_cancel").on("click", function() {
     $("#download_filename").val("");
+    $("#download_filename_error_message").html("");
     $("#download_rename_dialog")[0].close();
 });
 

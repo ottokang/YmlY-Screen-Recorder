@@ -101,3 +101,22 @@
     color: #ecf0f1;
     font-weight: bold;
 }
+
+#download_rename_dialog {
+    top: -30%;
+}
+
+#download_rename_button {
+    color: #D84315;
+}
+
+#download_rename_cancel {
+    color: #424242;
+}
+
+#download_filename_error_message {
+    margin-left: 6em;
+    padding-top: 3px;
+    color: #D32F2F;
+    font-size: small;
+}

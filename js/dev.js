@@ -1,6 +1,8 @@
 "use strict";
 
 var isDevelopement = false;
+
+// 設定測試模式
 //var isDevelopement = true;
 
 if (isDevelopement === true) {
