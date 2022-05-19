@@ -21,6 +21,9 @@ if (isDevelopement === true) {
     // 顯示瀏覽器專用專用項目
     $("[class*=only_]").show();
 
+    // 顯示下載按鈕
+    $("#download_button").addClass("pressed");
+
     // 顯示測試選項
     $(".dev").show();
 } else {
