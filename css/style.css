@@ -99,6 +99,14 @@ body {
     color: #999999;
 }
 
+#record_limit_time.disabled {
+    color: #888888;
+}
+
+#record_limit_mins {
+    width: 3em;
+}
+
 #instruction ul {
     margin: 0 auto;
 }

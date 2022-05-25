@@ -11,29 +11,7 @@ $("#start_recorder_button").on("click", async () => {
 });
 
 // 綁定停止錄影動作
-$("#stop_recorder_button").on("click", async () => {
-    await recorder.stopRecording(function() {
-        getSeekableBlob(recorder.getBlob(), function(seekableRecorderBlobs) {
-            $("#preview_video").prop({
-                "srcObject": null,
-                "src": URL.createObjectURL(seekableRecorderBlobs),
-                "controls": "controls",
-                "muted": "",
-                "autoplay": ""
-            });
-
-            $("#download_direct").prop({
-                "href": URL.createObjectURL(seekableRecorderBlobs)
-            });
-        });
-
-        $("#file_size").html("檔案大小：" + bytesToSize(recorder.getBlob().size)).show();
-    });
-
-    $("#start_recorder_button").html("重新錄影").show();
-    $("#stop_recorder_button, #recorder_time").hide();
-    $("#download").show();
-});
+$("#stop_recorder_button").on("click", onStopRecording);
 
 // 綁定下載按鈕動作
 $("#download_button").on("click", function() {
@@ -241,9 +219,31 @@ async function startRecord() {
             break;
     }
 
-    // 開始錄影
-    recorder = RecordRTC(stream, recorderOptions);
-    recorder.startRecording();
+    // 初始化錄影物件
+    recorder = new RecordRTCPromisesHandler(stream, recorderOptions);
+
+    // 是否設定時間限制
+    if ($("#is_record_limit_time").prop("checked") === true) {
+        let durationMS = Number.parseInt($("#record_limit_mins").val()) * 60 * 1000;
+
+        // 測試模式設定7秒結束錄影
+        if (isDevelopement === true) {
+            durationMS = 7000;
+        }
+
+        // 開始錄影、時間限制計時
+        recorder.startRecording();
+        await sleep(durationMS);
+
+        // 到達時間限制，還在錄影則停止錄影
+        if (recorder.recordRTC.getState() === "recording") {
+            onStopRecording();
+            showMessage("到達時間限制，停止錄影");
+        }
+    } else {
+        // 開始錄影
+        recorder.startRecording();
+    }
 }
 
 // 混合系統聲音和麥克風聲音
@@ -266,4 +266,29 @@ function mergeAudioStreams(screenStream, micStream) {
     }
 
     return mergeDestination.stream.getAudioTracks();
+}
+
+// 停止錄影動作
+async function onStopRecording() {
+    await recorder.stopRecording();
+    let blob = await recorder.getBlob();
+    getSeekableBlob(blob, function(seekableRecorderBlobs) {
+        $("#preview_video").prop({
+            "srcObject": null,
+            "src": URL.createObjectURL(seekableRecorderBlobs),
+            "controls": "controls",
+            "muted": "",
+            "autoplay": ""
+        });
+
+        $("#download_direct").prop({
+            "href": URL.createObjectURL(seekableRecorderBlobs)
+        });
+
+        $("#file_size").html("檔案大小：" + bytesToSize(seekableRecorderBlobs.size)).show();
+    });
+
+    $("#start_recorder_button").html("重新錄影").show();
+    $("#stop_recorder_button, #recorder_time").hide();
+    $("#download").show();
 }

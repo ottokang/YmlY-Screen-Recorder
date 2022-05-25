@@ -22,12 +22,6 @@ function clearMessage() {
 
 // 倒數計時
 async function recorderCountdown(seconds) {
-    const delay = (s) => {
-        return new Promise(function(resolve) {
-            setTimeout(resolve, s);
-        });
-    };
-
     if (seconds === "no_countdown") {
         return;
     } else {
@@ -35,7 +29,7 @@ async function recorderCountdown(seconds) {
         for (let i = 0; i < countdownSeconds; i++) {
             $("#countdown_time").html(countdownSeconds - i);
             playBeep(300)
-            await delay(1000);
+            await sleep(1000);
         }
         $("#countdown_time").html("開始錄影");
         window.setTimeout(function() {
@@ -44,7 +38,7 @@ async function recorderCountdown(seconds) {
 
         // 播放聲音
         await playBeep(800);
-        await delay(800);
+        await sleep(800);
     }
 }
 
@@ -76,6 +70,9 @@ async function playBeep(frequency = 440) {
 function startRecordTime() {
     startTime = Date.now();
 }
+
+// 等待一段時間，單位 ms
+var sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // 綁定測試錄音播放結束恢復測試按鈕
 $("#mic_test_audio").on("ended ", function() {
@@ -110,16 +107,11 @@ $("#mic_test").on("click", function() {
             // 開始錄音
             micTestRecorder.start();
             let micTestLimit = 3;
-            const delay = (s) => {
-                return new Promise(function(resolve) {
-                    setTimeout(resolve, s);
-                });
-            };
 
             // 更新倒數秒數
             for (let i = 0; i < micTestLimit; i++) {
                 $("#mic_test_countdown").html(micTestLimit - i);
-                await delay(1000);
+                await sleep(1000);
             }
 
             micTestRecorder.stop();
@@ -129,6 +121,13 @@ $("#mic_test").on("click", function() {
             showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);
             console.log(e.message);
         });
+});
+
+// 綁定播放預覽時清除訊息
+$("#preview_video").on("play", function() {
+    if ($("#preview_video").attr("controls") === "controls") {
+        clearMessage();
+    }
 });
 
 // 處理播放時間為時:分:秒

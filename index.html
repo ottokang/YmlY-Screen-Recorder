@@ -23,7 +23,7 @@
             <div id="stop_recorder_button" class="control_button">停止錄影</div>
             <br>
             <div id="download" class="dev">
-                <div id="download_button" class="control_button">下載</div>
+                <div id="download_button" class="control_button">下載 ...</div>
                 <div id="download_option" class="dev">
                     <a id="download_direct">直接下載</a>
                     <a id="download_rename">重新命名後下載</a>
@@ -55,13 +55,21 @@
                     <option value="5">5秒</option>
                 </select>
             </div>
+            <div class="option_item">
+                <input type="checkbox" id="is_record_limit_time" name="is_record_limit_time">
+                <span id="record_limit_time" class="disabled">
+                    <label for="record_limit_mins">時間限制：</label>
+                    <input type="number" id="record_limit_mins" name="record_limit_time" value="60" min="1" max="120" disabled="disabled">
+                    分鐘
+                </span>
+            </div>
         </div>
         <div id="instruction" class="flex_item not_supported">
             <ul>
-                <li>請至少錄影 10 秒以上，影片才會正常播放；建議錄影時間不要超過 1.5 小時。</li>
+                <li>請至少錄影 10 秒以上，影片才會正常播放；建議錄影時間不要超過 90 分鐘。</li>
                 <li class="only_chrome">錄影整個螢幕畫面時，若要錄製系統聲音，請記得勾選<b id="share_audio_tutorial_link">分享系統音訊</b>。</li>
                 <li>錄影格式為 webm 檔案，建議上傳至 <a href="https://www.youtube.com/" target="_blank">YouTube</a> 分享。</li>
-                <li class="only_mac">Mac 螢幕錄影、麥克風權限請到「設定：安全與隱私」中確認是否開啟。</li>
+                <li class="only_mac">MacOS 螢幕錄影、麥克風權限請到「設定：安全與隱私」中確認是否開啟。</li>
                 <li>
                     <button id="mic_test">🎙️測試麥克風</button>
                     <audio id="mic_test_audio" autoplay></audio>
@@ -90,6 +98,7 @@
     <script src="js/RecordRTC.min.js"></script>
     <script src="js/EBML.js"></script>
     <script src="js/utility.js"></script>
+    <script src="js/record_time_limit.js"></script>
     <script src="js/share_audio_tutorial.js"></script>
     <script src="js/recorder.js"></script>
     <script src="js/browser_check.js"></script>
