@@ -1,14 +1,10 @@
 "use strict";
 
+// 宣告錄影物件
 var recorder;
 
-// 隱藏停止錄影、下載、錄影時間、訊息
-$("#stop_recorder_button, #download, #recorder_time, #file_size, #message").hide();
-
 // 綁定開始錄影動作
-$("#start_recorder_button").on("click", async () => {
-    startRecord();
-});
+$("#start_recorder_button").on("click", startRecord);
 
 // 綁定停止錄影動作
 $("#stop_recorder_button").on("click", onStopRecording);
@@ -165,7 +161,6 @@ async function startRecord() {
 
     // 混合系統聲音和麥克風聲音
     let streamTracks;
-
     if (hasMicAudio === true || hasSystemAudio === true) {
         streamTracks = [
             ...screenStream.getVideoTracks(),
@@ -175,30 +170,29 @@ async function startRecord() {
         streamTracks = screenStream.getVideoTracks();
     }
 
-    // 設定預覽畫面
+    // 設定螢幕錄影預覽畫面
     $("#preview_video").prop({
         "controls": "",
         "muted": "muted",
         "autoplay": "autoplay"
     })
 
-    // 顯示預覽
+    // 顯示螢幕錄影預覽畫面
     $("#preview_message").hide();
     let stream = new MediaStream(streamTracks);
     $("#preview_video").prop("srcObject", stream);
 
-    // 先隱藏開始錄影、下載按鈕、檔案大小
-    $("#start_recorder_button").hide();
-    $("#download, #file_size").hide();
+    // 隱藏開始錄影按鈕、下載按鈕、檔案大小
+    $("#start_recorder_button, #download, #file_size").hide();
 
-    // 開始倒數計時
+    // 開始錄影倒數
     await recorderCountdown($("#recorder_countdown").val());
 
-    // 開始錄影計時
-    startRecordTime();
+    // 開始錄影時間計時
+    startRecordTimeCounter();
 
     // 顯示停止錄影按鈕、顯示錄影時間
-    $("#stop_recorder_button").show();
+    $("#stop_recorder_button").show().css("display", "inline-block");
     window.setTimeout(function() {
         $("#recorder_time").show();
     }, 1000);
@@ -272,6 +266,7 @@ function mergeAudioStreams(screenStream, micStream) {
 async function onStopRecording() {
     await recorder.stopRecording();
     let blob = await recorder.getBlob();
+    recorder.destroy();
     getSeekableBlob(blob, function(seekableRecorderBlobs) {
         $("#preview_video").prop({
             "srcObject": null,

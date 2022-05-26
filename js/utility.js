@@ -67,7 +67,7 @@ async function playBeep(frequency = 440) {
 }
 
 // 開始計算錄影時間
-function startRecordTime() {
+function startRecordTimeCounter() {
     startTime = Date.now();
 }
 
@@ -108,6 +108,25 @@ $("#mic_test").on("click", function() {
             micTestRecorder.start();
             let micTestLimit = 3;
 
+            // 開始顯示音量指標
+            $("#mic_test_meter").show();
+            const audioContext = new AudioContext();
+            const mediaStreamAudioSourceNode = audioContext.createMediaStreamSource(micTestStream);
+            const analyserNode = audioContext.createAnalyser();
+            mediaStreamAudioSourceNode.connect(analyserNode);
+
+            const pcmData = new Float32Array(analyserNode.fftSize);
+            const onFrame = () => {
+                analyserNode.getFloatTimeDomainData(pcmData);
+                let sumSquares = 0.0;
+                for (const amplitude of pcmData) {
+                    sumSquares += amplitude * amplitude;
+                }
+                $("#mic_test_meter").val(Math.sqrt(sumSquares / pcmData.length));
+                window.requestAnimationFrame(onFrame);
+            };
+            window.requestAnimationFrame(onFrame);
+
             // 更新倒數秒數
             for (let i = 0; i < micTestLimit; i++) {
                 $("#mic_test_countdown").html(micTestLimit - i);
@@ -116,6 +135,9 @@ $("#mic_test").on("click", function() {
 
             micTestRecorder.stop();
             $("#mic_test").html("🔊 播放中...");
+            if (isDevelopement === false) {
+                $("#mic_test_meter").hide();
+            }
         })
         .catch(function(e) {
             showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);

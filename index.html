@@ -13,14 +13,14 @@
         <div id="preview" class="flex_item">
             <video id="preview_video" autoplay muted></video>
             <div id="recorder_time"></div>
-            <div id="file_size"></div>
+            <div id="file_size" class="hide_on_start"></div>
             <div id="countdown_time"></div>
             <div id="preview_message" class="not_supported">螢幕錄影預覽畫面</div>
-            <div id="message" class="flex_item"></div>
+            <div id="message" class="flex_item hide_on_start"></div>
         </div>
         <div id="buttons" class="flex_item not_supported">
             <div id="start_recorder_button" class="control_button">開始錄影</div>
-            <div id="stop_recorder_button" class="control_button">停止錄影</div>
+            <div id="stop_recorder_button" class="control_button hide_on_start">停止錄影</div>
             <br>
             <div id="download" class="dev">
                 <div id="download_button" class="control_button">下載 ...</div>
@@ -69,10 +69,11 @@
                 <li>請至少錄影 10 秒以上，影片才會正常播放；建議錄影時間不要超過 90 分鐘。</li>
                 <li class="only_chrome">錄影整個螢幕畫面時，若要錄製系統聲音，請記得勾選<b id="share_audio_tutorial_link">分享系統音訊</b>。</li>
                 <li>錄影格式為 webm 檔案，建議上傳至 <a href="https://www.youtube.com/" target="_blank">YouTube</a> 分享。</li>
-                <li class="only_mac">MacOS 螢幕錄影、麥克風權限請到「設定：安全與隱私」中確認是否開啟。</li>
+                <li class="only_mac hide_on_start">MacOS 螢幕錄影、麥克風權限請到「設定：安全與隱私」中確認是否開啟。</li>
                 <li>
                     <button id="mic_test">🎙️測試麥克風</button>
                     <audio id="mic_test_audio" autoplay></audio>
+                    <meter id="mic_test_meter" max="0.3" high="0.2" low="0.1"> </meter>
                 </li>
                 <li class="dev">
                     <button id="countdown_test">測試倒數計時</button>

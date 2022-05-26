@@ -79,7 +79,13 @@ body {
 #buttons {
     position: relative;
     width: 45%;
+    height: 4em;
     text-align: center;
+}
+
+.dev,
+.hide_on_start {
+    display: none;
 }
 
 #options .option_item {
@@ -126,6 +132,10 @@ body {
 
 #instruction #mic_test_countdown {
     color: red;
+}
+
+#mic_test_meter {
+    display: none;
 }
 
 #version {
