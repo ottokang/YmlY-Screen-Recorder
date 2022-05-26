@@ -13,15 +13,15 @@ if (isDevelopement === true) {
     $("#recorder_time").html("錄影時間測試").show();
     $("#file_size").html("檔案大小").show();
 
-    // 綁定測試函數
+    // 綁定倒數計時測試函數
     $("#countdown_test").on("click", function() {
         recorderCountdown(3);
     });
 
-    // 顯示瀏覽器專用專用項目
+    // 顯示各瀏覽器專用項目
     $("[class*=only_]").show();
 
-    // 顯示下載按鈕
+    // 顯示下載按鈕按下狀態
     $("#download_button").addClass("pressed");
 
     // 顯示測試選項
