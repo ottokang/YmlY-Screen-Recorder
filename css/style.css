@@ -30,8 +30,7 @@ body {
     background-color: #212121;
 }
 
-#recorder_time,
-#file_size {
+#recorder_time {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -40,6 +39,9 @@ body {
 }
 
 #file_size {
+    position: absolute;
+    top: 10px;
+    left: 10px;
     padding: 5px;
     border-radius: 5px;
     background-color: #455A64;
