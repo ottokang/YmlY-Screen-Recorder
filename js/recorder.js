@@ -1,7 +1,8 @@
 "use strict";
 
-// 宣告錄影物件
-var recorder;
+// 宣告錄影物件、錄影檔案大小
+var recorder = null;
+var blobSize = 0;
 
 // 綁定開始錄影動作
 $("#start_recorder_button").on("click", startRecord);
@@ -191,17 +192,27 @@ async function startRecord() {
     // 開始錄影時間計時
     startRecordTimeCounter();
 
-    // 顯示停止錄影按鈕、顯示錄影時間
+    // 顯示停止錄影按鈕、顯示錄影時間、顯示錄影檔案大小
     $("#stop_recorder_button").show().css("display", "inline-block");
     window.setTimeout(function() {
         $("#recorder_time").show();
+        $("#file_size").show()
     }, 1000);
+
+    // 初始化錄影檔案大小
+    blobSize = 0;
 
     // 設定錄影格式
     let recorderOptions = {
         mimeType: 'video/webm',
         recorderType: MediaStreamRecorder,
         disableLogs: false,
+        timeSlice: 1000,
+        ondataavailable: function(blob) {
+            // 累加檔案大小
+            blobSize += blob.size;
+            $("#file_size").html("檔案大小：" + bytesToSize(blobSize));
+        }
     };
 
     switch ($("#video_format").val()) {
