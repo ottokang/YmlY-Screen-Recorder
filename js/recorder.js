@@ -186,6 +186,11 @@ async function startRecord() {
     // 隱藏開始錄影按鈕、下載按鈕、檔案大小
     $("#start_recorder_button, #download, #file_size").hide();
 
+    // 清除上一階段錄影物件
+    if ($("#preview_video").prop("src") !== "") {
+        URL.revokeObjectURL($("#preview_video").prop("src"));
+    }
+
     // 開始錄影倒數
     await recorderCountdown($("#recorder_countdown").val());
 
@@ -285,16 +290,17 @@ async function onStopRecording() {
     let blob = await recorder.getBlob();
     recorder.destroy();
     getSeekableBlob(blob, function(seekableRecorderBlobs) {
+        let blobURL = URL.createObjectURL(seekableRecorderBlobs);
         $("#preview_video").prop({
             "srcObject": null,
-            "src": URL.createObjectURL(seekableRecorderBlobs),
+            "src": blobURL,
             "controls": "controls",
             "muted": "",
             "autoplay": ""
         });
 
         $("#download_direct").prop({
-            "href": URL.createObjectURL(seekableRecorderBlobs)
+            "href": blobURL
         });
 
         $("#file_size").html("檔案大小：" + bytesToSize(seekableRecorderBlobs.size)).show();
