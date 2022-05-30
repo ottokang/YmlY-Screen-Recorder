@@ -12,9 +12,9 @@
     <div id="container">
         <div id="preview" class="flex_item">
             <video id="preview_video" autoplay muted></video>
-            <div id="recorder_time"></div>
+            <div id="recorder_time" class="hide_on_start"></div>
             <div id="file_size" class="hide_on_start"></div>
-            <div id="countdown_time"></div>
+            <div id="countdown_time" class="hide_on_start"></div>
             <div id="preview_message" class="not_supported">螢幕錄影預覽畫面</div>
             <div id="message" class="flex_item hide_on_start"></div>
         </div>
@@ -43,8 +43,9 @@
             <div class="option_item dev">
                 <label for="video_format">錄影格式：</label>
                 <select id="video_format">
-                    <option value="vp8" selected>.webm (VP8+Opus)</option>
-                    <option value="h264">.webm (H.264+Opus)</option>
+                    <option value="vp8">.webm (VP8+Opus, Chrome && Firefox)</option>
+                    <option value="vp9">.webm (VP9+Opus, Chrome)</option>
+                    <option value="h264">.webm (H.264+Opus, Chrome)</option>
                 </select>
             </div>
             <div class="option_item">
@@ -68,7 +69,7 @@
             <ul>
                 <li>請至少錄影 10 秒以上，影片才會正常播放；建議錄影時間不要超過 90 分鐘。</li>
                 <li class="only_chrome">錄影整個螢幕畫面時，若要錄製系統聲音，請記得勾選<b id="share_audio_tutorial_link">分享系統音訊</b>。</li>
-                <li>錄影格式為 webm 檔案，建議上傳至 <a href="https://www.youtube.com/" target="_blank">YouTube</a> 分享。</li>
+                <li>錄影格式為 WebM 檔案，建議上傳至 <a href="https://www.youtube.com/" target="_blank">YouTube</a> 分享。</li>
                 <li class="only_mac hide_on_start">MacOS 螢幕錄影、麥克風權限請到「設定：安全與隱私」中確認是否開啟。</li>
                 <li>
                     <button id="mic_test">🎙️測試麥克風</button>

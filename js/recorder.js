@@ -195,14 +195,14 @@ async function startRecord() {
     // 顯示停止錄影按鈕、顯示錄影時間、顯示錄影檔案大小
     $("#stop_recorder_button").show().css("display", "inline-block");
     window.setTimeout(function() {
+        $("#file_size").show();
         $("#recorder_time").show();
-        $("#file_size").show()
     }, 1000);
 
     // 初始化錄影檔案大小
     blobSize = 0;
 
-    // 設定錄影格式
+    // 設定錄影選項
     let recorderOptions = {
         mimeType: 'video/webm',
         recorderType: MediaStreamRecorder,
@@ -215,13 +215,19 @@ async function startRecord() {
         }
     };
 
-    switch ($("#video_format").val()) {
-        case "vp8":
-            recorderOptions.mimeType = "video/webm";
-            break;
-        case "h264":
-            recorderOptions.mimeType = 'video/webm;codecs=H264';
-            break;
+    // 開發模式使用設定的錄影格式
+    if (isDevelopement === true) {
+        switch ($("#video_format").val()) {
+            case "vp8":
+                recorderOptions.mimeType = "video/webm;codecs=vp8";
+                break;
+            case "vp9":
+                recorderOptions.mimeType = "video/webm;codecs=vp9";
+                break;
+            case "h264":
+                recorderOptions.mimeType = 'video/webm;codecs=H264';
+                break;
+        }
     }
 
     // 初始化錄影物件

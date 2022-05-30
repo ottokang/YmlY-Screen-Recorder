@@ -10,7 +10,6 @@ if (isDevelopement === true) {
     $("#recorder_time").html("錄影時間測試").show();
     $("#countdown_time").html("倒數時間").show();
     $("#message").html("訊息測試").show();
-    $("#recorder_time").html("錄影時間測試").show();
     $("#file_size").html("檔案大小").show();
 
     // 綁定倒數計時測試函數

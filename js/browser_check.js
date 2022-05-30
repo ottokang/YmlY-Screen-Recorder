@@ -25,7 +25,7 @@ if (isMacChrome === true || isMacFirefox === true) {
 }
 
 if (isChrome === true) {
-    // 設定 Chrome 說明界面
+    // 顯示 Chrome 說明界面
     $(".only_chrome").show();
 } else if (isFirefox === true) {
     // 設定 Firefox 聲音模式界面
@@ -37,7 +37,7 @@ if (isChrome === true) {
     });
     $("#audio_mode option[value='only_mic']").attr("selected", "selected");
 
-    // 設定 Firefox 說明界面
+    // 隱藏 Chrome 說明界面
     $(".only_chrome").hide();
 }
 
