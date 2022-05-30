@@ -25,6 +25,7 @@ async function recorderCountdown(seconds) {
     if (seconds === "no_countdown") {
         return;
     } else {
+        $("#countdown_time").show();
         let countdownSeconds = Number.parseInt(seconds);
         for (let i = 0; i < countdownSeconds; i++) {
             $("#countdown_time").html(countdownSeconds - i);
@@ -33,7 +34,7 @@ async function recorderCountdown(seconds) {
         }
         $("#countdown_time").html("開始錄影");
         window.setTimeout(function() {
-            $("#countdown_time").html("");
+            $("#countdown_time").html("").hide();
         }, 2000);
 
         // 播放聲音
