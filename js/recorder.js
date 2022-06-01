@@ -204,7 +204,7 @@ async function startRecord() {
         $("#recorder_time").show();
     }, 1000);
 
-    // 初始化錄影檔案大小
+    // 初始化錄影檔案大小，測試上限可以設定為1945000000
     blobSize = 0;
 
     // 設定錄影選項
@@ -217,6 +217,17 @@ async function startRecord() {
             // 累加檔案大小
             blobSize += blob.size;
             $("#file_size").html("檔案大小：" + bytesToSize(blobSize));
+
+            // 超過1.9GB，發出警告
+            if (blobSize > 1900000000) {
+                $("#file_size").html("檔案大小：" + bytesToSize(blobSize) + "<br>（將於1.95GB停止錄影）").css("color", "#E53935");
+            }
+
+            // 超過1.95GB，停止錄影
+            if (blobSize > 1950000000) {
+                onStopRecording();
+                showMessage("到達檔案大小限制（1.95GB），停止錄影");
+            }
         }
     };
 
