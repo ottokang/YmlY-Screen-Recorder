@@ -1,6 +1,6 @@
-"use strict"
+"use strict";
 
-$("body").on("click", function(e) {
+$("body").on("click", function (e) {
     let targetObj = $(e.target);
 
     // 下載按鈕點其他地方會收起選單

@@ -11,13 +11,13 @@ $("#start_recorder_button").on("click", startRecord);
 $("#stop_recorder_button").on("click", onStopRecording);
 
 // 綁定下載按鈕動作
-$("#download_button").on("click", function() {
+$("#download_button").on("click", function () {
     $(this).toggleClass("pressed");
     $("#download_option").slideToggle(350);
 });
 
 // 綁定直接下載按鈕動作
-$("#download_direct").on("click", function() {
+$("#download_direct").on("click", function () {
     // 設定下載檔案日期時間資訊
     if ($("#download_filename").val() === "") {
         const date = new Date();
@@ -26,21 +26,21 @@ $("#download_direct").on("click", function() {
         let dateString = String(date.getDate()).padStart(2, "0");
         let hourString = String(date.getHours()).padStart(2, "0");
         let minuteSring = String(date.getMinutes()).padStart(2, "0");
-        let fileDateString = `${yearString}-${monthString}-${dateString} ${hourString}-${minuteSring}`
-        $("#download_direct").prop("download", `螢幕錄影 ${fileDateString}.webm`)
+        let fileDateString = `${yearString}-${monthString}-${dateString} ${hourString}-${minuteSring}`;
+        $("#download_direct").prop("download", `螢幕錄影 ${fileDateString}.webm`);
     } else {
         // 下載修改過檔名的檔案
-        $("#download_direct").prop("download", `${$("#download_filename").val().trim()}.webm`)
+        $("#download_direct").prop("download", `${$("#download_filename").val().trim()}.webm`);
     }
 });
 
 // 綁定重新命名下載動作
-$("#download_rename").on("click", function() {
+$("#download_rename").on("click", function () {
     $("#download_rename_dialog")[0].showModal();
 });
 
 // 綁定下載重新命名的檔名
-$("#download_rename_button").on("click", function() {
+$("#download_rename_button").on("click", function () {
     // 驗證檔名
     let fileName = $("#download_filename").val().trim();
     let error_massage = null;
@@ -69,14 +69,14 @@ $("#download_rename_button").on("click", function() {
 });
 
 // 綁定取消重新命名下載動作
-$("#download_rename_cancel").on("click", function() {
+$("#download_rename_cancel").on("click", function () {
     $("#download_filename").val("");
     $("#download_filename_error_message").html("");
     $("#download_rename_dialog")[0].close();
 });
 
 // 綁定預覽畫面錄影時間改變動作
-$("#preview_video").on("timeupdate", function() {
+$("#preview_video").on("timeupdate", function () {
     let recorderTime = Math.floor((Date.now() - startTime) / 1000);
     $("#recorder_time").html("錄影時間：" + recorderTime.toString().toHHMMSS());
 });
@@ -93,7 +93,7 @@ async function startRecord() {
     clearMessage();
 
     // 判斷聲音模式
-    let isSystemAudio, isMicAudio
+    let isSystemAudio, isMicAudio;
     switch ($("#audio_mode").val()) {
         case "mic_system":
             isSystemAudio = true;
@@ -121,7 +121,7 @@ async function startRecord() {
     try {
         screenStream = await navigator.mediaDevices.getDisplayMedia({
             video: true,
-            audio: isSystemAudio
+            audio: isSystemAudio,
         });
     } catch (e) {
         if (e.message.includes("audio source")) {
@@ -139,7 +139,10 @@ async function startRecord() {
             showMessage("你有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇分享整個畫面或者分頁，才能錄製聲音", 10);
             hasSystemAudio = false;
         } else if (isMacChrome) {
-            showMessage("你有勾選錄製系統聲音，但是 MacOS 版 Chrome 分享整個螢幕畫面無法分享系統聲音<br><br>如果要錄製系統聲音，請重新選擇分享分頁，才能錄製聲音", 10);
+            showMessage(
+                "你有勾選錄製系統聲音，但是 MacOS 版 Chrome 分享整個螢幕畫面無法分享系統聲音<br><br>如果要錄製系統聲音，請重新選擇分享分頁，才能錄製聲音",
+                10
+            );
             hasSystemAudio = false;
         } else if (screenStream.getAudioTracks().length === 0 && isSystemAudio === true) {
             showMessage("沒有勾選分享系統音訊，請重新點選錄影後勾選");
@@ -151,7 +154,7 @@ async function startRecord() {
         if (isMicAudio === true) {
             micStream = await navigator.mediaDevices.getUserMedia({
                 video: false,
-                audio: true
+                audio: true,
             });
         }
     } catch (e) {
@@ -163,20 +166,17 @@ async function startRecord() {
     // 混合系統聲音和麥克風聲音
     let streamTracks;
     if (hasMicAudio === true || hasSystemAudio === true) {
-        streamTracks = [
-            ...screenStream.getVideoTracks(),
-            ...mergeAudioStreams(screenStream, micStream)
-        ];
+        streamTracks = [...screenStream.getVideoTracks(), ...mergeAudioStreams(screenStream, micStream)];
     } else {
         streamTracks = screenStream.getVideoTracks();
     }
 
-    // 設定螢幕錄影預覽畫面
+    // 設定螢幕錄影預覽畫面開始顯示
     $("#preview_video").prop({
-        "controls": "",
-        "muted": "muted",
-        "autoplay": "autoplay"
-    })
+        controls: "",
+        muted: "muted",
+        autoplay: "autoplay",
+    });
 
     // 顯示螢幕錄影預覽畫面
     $("#preview_message").hide();
@@ -199,7 +199,7 @@ async function startRecord() {
 
     // 顯示停止錄影按鈕、顯示錄影時間、顯示錄影檔案大小
     $("#stop_recorder_button").show().css("display", "inline-block");
-    window.setTimeout(function() {
+    window.setTimeout(function () {
         $("#file_size").show();
         $("#recorder_time").show();
     }, 1000);
@@ -209,18 +209,20 @@ async function startRecord() {
 
     // 設定錄影選項
     let recorderOptions = {
-        mimeType: 'video/webm',
+        mimeType: "video/webm",
         recorderType: MediaStreamRecorder,
-        disableLogs: false,
+        disableLogs: !isRecordRTClog,
         timeSlice: 1000,
-        ondataavailable: function(blob) {
+        ondataavailable: function (blob) {
             // 累加檔案大小
             blobSize += blob.size;
             $("#file_size").html("檔案大小：" + bytesToSize(blobSize));
 
             // 超過1.9GB，發出警告
             if (blobSize > 1900000000) {
-                $("#file_size").html("檔案大小：" + bytesToSize(blobSize) + "<br>（將於1.95GB停止錄影）").css("color", "#E53935");
+                $("#file_size")
+                    .html("檔案大小：" + bytesToSize(blobSize) + "<br>（將於1.95GB停止錄影）")
+                    .css("color", "#E53935");
             }
 
             // 超過1.95GB，停止錄影
@@ -228,7 +230,7 @@ async function startRecord() {
                 onStopRecording();
                 showMessage("到達檔案大小限制（1.95GB），停止錄影");
             }
-        }
+        },
     };
 
     // 開發模式使用設定的錄影格式
@@ -241,7 +243,7 @@ async function startRecord() {
                 recorderOptions.mimeType = "video/webm;codecs=vp9";
                 break;
             case "h264":
-                recorderOptions.mimeType = 'video/webm;codecs=H264';
+                recorderOptions.mimeType = "video/webm;codecs=H264";
                 break;
         }
     }
@@ -300,21 +302,23 @@ async function onStopRecording() {
     await recorder.stopRecording();
     let blob = await recorder.getBlob();
     recorder.destroy();
-    getSeekableBlob(blob, function(seekableRecorderBlobs) {
+    getSeekableBlob(blob, function (seekableRecorderBlobs) {
         let blobURL = URL.createObjectURL(seekableRecorderBlobs);
         $("#preview_video").prop({
-            "srcObject": null,
-            "src": blobURL,
-            "controls": "controls",
-            "muted": "",
-            "autoplay": ""
+            srcObject: null,
+            src: blobURL,
+            controls: "controls",
+            muted: "",
+            autoplay: "",
         });
 
         $("#download_direct").prop({
-            "href": blobURL
+            href: blobURL,
         });
 
-        $("#file_size").html("檔案大小：" + bytesToSize(seekableRecorderBlobs.size)).show();
+        $("#file_size")
+            .html("檔案大小：" + bytesToSize(seekableRecorderBlobs.size))
+            .show();
     });
 
     $("#start_recorder_button").html("重新錄影").show();

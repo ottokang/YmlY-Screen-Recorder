@@ -9,7 +9,7 @@ function showMessage(text, countDown = null) {
     $("#message").html(text).show();
 
     if (countDown !== null) {
-        messageTimeoutID = window.setTimeout(function() {
+        messageTimeoutID = window.setTimeout(function () {
             $("#message").hide("slow");
         }, countDown * 1000);
     }
@@ -29,11 +29,11 @@ async function recorderCountdown(seconds) {
         let countdownSeconds = Number.parseInt(seconds);
         for (let i = 0; i < countdownSeconds; i++) {
             $("#countdown_time").html(countdownSeconds - i);
-            playBeep(300)
+            playBeep(300);
             await sleep(1000);
         }
         $("#countdown_time").html("開始錄影");
-        window.setTimeout(function() {
+        window.setTimeout(function () {
             $("#countdown_time").html("").hide();
         }, 2000);
 
@@ -56,12 +56,12 @@ async function playBeep(frequency = 440) {
     gain.gain.setValueAtTime(gain.gain.value, currentTime);
     gain.gain.exponentialRampToValueAtTime(0.00001, currentTime + 1);
 
-    osc.onended = function() {
+    osc.onended = function () {
         gain.disconnect(audioContext.destination);
         osc.disconnect(gain);
-    }
+    };
 
-    osc.type = 'sine';
+    osc.type = "sine";
     osc.frequency.value = frequency;
     osc.start(currentTime);
     osc.stop(currentTime + 1);
@@ -73,20 +73,21 @@ function startRecordTimeCounter() {
 }
 
 // 等待一段時間，單位 ms
-var sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+var sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // 綁定測試錄音播放結束恢復測試按鈕
-$("#mic_test_audio").on("ended ", function() {
+$("#mic_test_audio").on("ended ", function () {
     $("#mic_test").html("🎙️ 測試麥克風");
 });
 
 // 綁定麥克風測試
-$("#mic_test").on("click", function() {
-    navigator.mediaDevices.getUserMedia({
+$("#mic_test").on("click", function () {
+    navigator.mediaDevices
+        .getUserMedia({
             video: false,
-            audio: true
+            audio: true,
         })
-        .then(async function(micTestStream) {
+        .then(async function (micTestStream) {
             let micTestStreamBlobs = [];
             let micTestRecorderBlobs = [];
 
@@ -97,11 +98,11 @@ $("#mic_test").on("click", function() {
             micTestRecorder.ondataavailable = (e) => micTestStreamBlobs.push(e.data);
             micTestRecorder.onstop = async () => {
                 micTestRecorderBlobs = new Blob(micTestStreamBlobs, {
-                    type: 'audio/webm'
+                    type: "audio/webm",
                 });
 
                 $("#mic_test_audio").prop({
-                    "src": URL.createObjectURL(micTestRecorderBlobs)
+                    src: URL.createObjectURL(micTestRecorderBlobs),
                 });
             };
 
@@ -140,25 +141,25 @@ $("#mic_test").on("click", function() {
                 $("#mic_test_meter").hide();
             }
         })
-        .catch(function(e) {
+        .catch(function (e) {
             showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器分享麥克風權限，或是插入麥克風", 5);
             console.log(e.message);
         });
 });
 
 // 綁定播放預覽時清除訊息
-$("#preview_video").on("play", function() {
+$("#preview_video").on("play", function () {
     if ($("#preview_video").attr("controls") === "controls") {
         clearMessage();
     }
 });
 
 // 處理播放時間為時:分:秒
-String.prototype.toHHMMSS = function() {
+String.prototype.toHHMMSS = function () {
     let secondsNumber = Number.parseInt(this, 10);
     let hours = Math.floor(secondsNumber / 3600);
-    let minutes = Math.floor((secondsNumber - (hours * 3600)) / 60);
-    let seconds = secondsNumber - (hours * 3600) - (minutes * 60);
+    let minutes = Math.floor((secondsNumber - hours * 3600) / 60);
+    let seconds = secondsNumber - hours * 3600 - minutes * 60;
 
     if (hours < 10) {
         hours = `0${hours}`;
@@ -170,4 +171,4 @@ String.prototype.toHHMMSS = function() {
         seconds = `0${seconds}`;
     }
     return hours + ":" + minutes + ":" + seconds;
-}
+};

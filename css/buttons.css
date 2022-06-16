@@ -1,14 +1,14 @@
 .control_button {
+    border-radius: 6px;
+    border-width: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
     display: inline-block;
+    font-size: 1.2em;
+    outline: none;
     overflow: hidden;
     padding: 10px;
-    outline: none;
-    border-width: 0;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
     text-align: center;
-    font-size: 1.2em;
-    cursor: pointer;
     transition: background-color 0.3s;
 }
 
@@ -18,86 +18,85 @@
 }
 
 #start_recorder_button {
-    background-color: #7B1FA2;
+    background-color: #7b1fa2;
     color: #ecf0f1;
 }
 
 #start_recorder_button:hover,
 #start_recorder_button:focus {
-    background-color: #6A1B9A;
+    background-color: #6a1b9a;
 }
 
 #start_recorder_button {
-    background-color: #7B1FA2;
+    background-color: #7b1fa2;
     color: #ecf0f1;
 }
 
 #start_recorder_button:hover,
 #start_recorder_button:focus {
-    background-color: #6A1B9A;
+    background-color: #6a1b9a;
 }
 
 #stop_recorder_button {
-    background-color: #D32F2F;
+    background-color: #d32f2f;
     color: #ecf0f1;
 }
 
 #stop_recorder_button:hover,
 #stop_recorder_button:focus {
-    background-color: #C62828;
+    background-color: #c62828;
 }
 
 #download {
     position: absolute;
-    top: 0;
     right: 0;
     text-align: right;
+    top: 0;
 }
 
 #download_button {
-    background-color: #1976D2;
+    background-color: #1976d2;
     color: #ecf0f1;
-
 }
 
 #download_button:hover,
 #download_button:focus {
-    background-color: #1565C0;
+    background-color: #1565c0;
 }
 
 #download_button.pressed {
-    background-color: #1A237E;
+    background-color: #1a237e;
 }
 
 #download_file_name {
     float: left;
-    margin: 8px;
     line-height: 2em;
+    margin: 8px;
 }
 
 #download_option {
-    display: none;
-    border: 1px solid #f0e7e7;
     background-color: #616161;
+    border: 1px solid #f0e7e7;
+    display: none;
     transform: translateX(50%);
 }
 
 #download_option a {
-    display: block;
     color: #ecf0f1;
+    display: block;
     text-decoration: none;
 }
 
 #download_option #download_direct,
 #download_option #download_rename {
+    cursor: pointer;
     padding: 5px;
     text-align: left;
-    cursor: pointer;
 }
 
 #download_option #download_direct:hover,
 #download_option #download_rename:hover {
-    background-color: #1976D2;
+    background-color: #1976d2;
     color: #ecf0f1;
     font-weight: bold;
 }
@@ -107,7 +106,7 @@
 }
 
 #download_rename_button {
-    color: #D84315;
+    color: #d84315;
 }
 
 #download_rename_cancel {
@@ -115,8 +114,8 @@
 }
 
 #download_filename_error_message {
+    color: #d32f2f;
+    font-size: small;
     margin-left: 6em;
     padding-top: 3px;
-    color: #D32F2F;
-    font-size: small;
 }

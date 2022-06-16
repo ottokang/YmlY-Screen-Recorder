@@ -3,7 +3,10 @@
 var isDevelopement = false;
 
 // 設定測試模式
-//var isDevelopement = true;
+var isDevelopement = false;
+
+// 設定 RecorderRTC 是否紀錄 Log
+var isRecordRTClog = false;
 
 if (isDevelopement === true) {
     // 顯示測試用訊息
@@ -13,7 +16,7 @@ if (isDevelopement === true) {
     $("#file_size").html("檔案大小").show();
 
     // 綁定倒數計時測試函數
-    $("#countdown_test").on("click", function() {
+    $("#countdown_test").on("click", function () {
         recorderCountdown(3);
     });
 

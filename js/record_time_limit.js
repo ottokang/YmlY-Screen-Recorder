@@ -1,7 +1,7 @@
 "use strict";
 
 // 綁定時間限制是否啟用動作
-$("#is_record_limit_time").on("change", function() {
+$("#is_record_limit_time").on("change", function () {
     if (this.checked === true) {
         $("#record_limit_time").removeClass("disabled");
         $("#record_limit_mins").removeAttr("disabled");
@@ -12,7 +12,7 @@ $("#is_record_limit_time").on("change", function() {
 });
 
 // 綁定時間限制分鐘改變時檢查數字是否正確
-$("#record_limit_mins").on("change", function() {
+$("#record_limit_mins").on("change", function () {
     // 變更為整數
     let record_limit_mins = Number.parseInt($(this).val());
 
@@ -31,6 +31,6 @@ $("#record_limit_mins").on("change", function() {
 });
 
 // 綁定點擊時間限制分鐘時選取整個輸入欄位
-$("#record_limit_mins").on("click", function() {
+$("#record_limit_mins").on("click", function () {
     $(this).select();
 });

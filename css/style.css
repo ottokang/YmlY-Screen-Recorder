@@ -1,15 +1,15 @@
 @import "buttons.css";
 
 body {
-    margin: 5px;
-    padding: 5px;
     background: #424242;
     color: #ecf0f1;
+    margin: 5px;
+    padding: 5px;
 }
 
 #container {
-    display: flex;
     align-items: center;
+    display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
 }
@@ -20,44 +20,44 @@ body {
 
 #preview {
     position: relative;
-    width: 45%;
     text-align: center;
+    width: 45%;
 }
 
 #preview_video {
-    width: 100%;
-    border: 1px solid white;
     background-color: #212121;
+    border: 1px solid white;
+    width: 100%;
 }
 
 #recorder_time {
-    position: absolute;
-    top: 10px;
-    right: 10px;
     color: red;
+    position: absolute;
+    right: 10px;
     text-shadow: 1px 1px #333333;
+    top: 10px;
 }
 
 #file_size {
-    position: absolute;
-    top: 10px;
+    background-color: #455a64;
+    border-radius: 5px;
+    color: #ffa726;
     left: 10px;
     padding: 5px;
-    border-radius: 5px;
-    background-color: #455A64;
-    color: #FFA726;
+    position: absolute;
     text-shadow: 1px 1px #333333;
+    top: 10px;
 }
 
 #countdown_time,
 #preview_message {
-    position: absolute;
-    top: 10%;
-    left: 50%;
-    width: 90%;
-    text-shadow: 3px 3px #333333;
     font-size: 2em;
+    left: 50%;
+    position: absolute;
+    text-shadow: 3px 3px #333333;
+    top: 10%;
     transform: translateX(-50%);
+    width: 90%;
 }
 
 #countdown_time {
@@ -66,23 +66,23 @@ body {
 }
 
 #message {
-    position: absolute;
+    background-color: #880e4f;
+    border-radius: 5px;
     bottom: 20%;
+    color: #fafafa;
+    font-weight: bold;
     left: 50%;
     padding: 8px;
-    width: 80%;
-    border-radius: 5px;
-    background-color: #880E4F;
-    color: #FAFAFA;
-    font-weight: bold;
+    position: absolute;
     transform: translateX(-50%);
+    width: 80%;
 }
 
 #buttons {
-    position: relative;
-    width: 45%;
     height: 4em;
+    position: relative;
     text-align: center;
+    width: 45%;
 }
 
 .dev,
@@ -91,12 +91,12 @@ body {
 }
 
 #options .option_item {
+    background-color: #64b5f6;
+    border: 2px solid #2196f3;
+    border-radius: 6px;
+    color: #000000;
     margin-bottom: 1em;
     padding: 8px;
-    border: 2px solid #2196F3;
-    border-radius: 6px;
-    background-color: #64B5F6;
-    color: #000000;
 }
 
 #options option {
@@ -124,16 +124,20 @@ body {
 }
 
 #instruction ul li b {
-    color: #F9A825;
+    color: #f9a825;
 }
 
 #instruction ul li a:link,
 #instruction ul li a:visited {
-    color: #2196F3;
+    color: #2196f3;
 }
 
 #instruction #mic_test_countdown {
     color: red;
+}
+
+#instruction #memory_below_8GB {
+    color: #ef5350;
 }
 
 #mic_test_meter {
@@ -141,10 +145,10 @@ body {
 }
 
 #version {
-    position: absolute;
-    right: 20px;
     bottom: 20px;
     color: #999999;
+    position: absolute;
+    right: 20px;
 }
 
 #version a {
@@ -156,28 +160,28 @@ body {
 }
 
 #share_audio_tutorial {
-    padding: 0px;
-    width: 50%;
     border: 3px solid #616161;
     border-radius: 5px;
     box-shadow: 5px 5px 5px #616161;
+    padding: 0px;
+    width: 50%;
 }
 
 #share_audio_tutorial_close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 1;
     font-size: small;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1;
 }
 
 #share_audio_tutorial_replay {
+    font-size: x-large;
+    left: 50%;
     position: absolute;
     top: 50%;
-    left: 50%;
-    z-index: 1;
-    font-size: x-large;
     transform: translate(-50%, -50%);
+    z-index: 1;
 }
 
 #share_audio_tutorial_video {
@@ -187,4 +191,5 @@ body {
 
 #share_audio_tutorial_link {
     cursor: pointer;
+    text-decoration: underline;
 }
