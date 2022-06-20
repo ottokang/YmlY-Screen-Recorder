@@ -1,12 +1,10 @@
 "use strict";
 
-var isDevelopement = false;
-
 // 設定測試模式
 var isDevelopement = false;
 
 // 設定 RecorderRTC 是否紀錄 Log
-var isRecordRTClog = false;
+var isRecordRTClog = true;
 
 if (isDevelopement === true) {
     // 顯示測試用訊息
