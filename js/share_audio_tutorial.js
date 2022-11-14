@@ -1,3 +1,5 @@
+"use strict";
+
 // 綁定重新播放分享音訊說明按鈕動作
 $("#share_audio_tutorial_replay").on("click", function () {
     $("#share_audio_tutorial_video")[0].currentTime = 0;
