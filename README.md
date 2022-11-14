@@ -1,4 +1,4 @@
-# 螢幕錄影-YmlY Screen Recorder
+# 螢幕錄影 YmlY Screen Recorder
 
 ## 功能特色
 
@@ -9,7 +9,7 @@
 ## 支援瀏覽器
 
 * Windows、MacOS 版 Chrome、Firefox 瀏覽器
-* <尚未支援行動裝置瀏覽器、Safari>
+* **尚未支援行動裝置瀏覽器、Safari 瀏覽器**
 
 ## 使用方式
 
