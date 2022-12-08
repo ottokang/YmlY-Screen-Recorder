@@ -1,4 +1,4 @@
-# YmlY 螢幕錄影 YmlY Screen Recorder
+# 🖥 YmlY 螢幕錄影 YmlY Screen Recorder
 
 ## 功能特色
 
