@@ -17,18 +17,18 @@ if (isFirefox === true) {
     }
 }
 
-// 顯示 Mac 版說明
+// 顯示 Mac 版說明介面
 if (isMacChrome === true || isMacFirefox === true) {
     $(".only_mac").show();
 } else {
     $(".only_mac").hide();
 }
 
-// 顯示 Chrome 說明界面
+// 顯示 Chrome 說明介面
 if (isChrome === true) {
     $(".only_chrome").show();
 } else if (isFirefox === true) {
-    // 設定 Firefox 聲音模式界面
+    // 顯示 Firefox 說明介面
     $("#audio_mode option[value='mic_system']")
         .attr("disabled", "disabled")
         .html(function () {
@@ -41,21 +41,20 @@ if (isChrome === true) {
         });
     $("#audio_mode option[value='only_mic']").attr("selected", "selected");
 
-    // 隱藏 Chrome 說明界面
+    // 隱藏 Chrome 說明介面
     $(".only_chrome").hide();
 }
 
-// 排除 Safari
+// 顯示不支援 Safari、行動裝置瀏覽器
 if (isSafari === true) {
     showMessage("不支援 Safari 瀏覽器<br>請改用 Windows、MacOS 版 Chrome、Firefox 瀏覽器");
     $(".not_supported").hide();
 } else if (navigator.userAgent.match(["Mobile"])) {
-    // 排除行動裝置
     showMessage("不支援行動裝置瀏覽器<br>請改用 Windows、MacOS 版 Chrome、Firefox 瀏覽器");
     $(".not_supported").hide();
 }
 
-// 偵測裝置記憶體（目前僅限 Chrome）
+// 偵測裝置記憶體（僅限 Chrome）
 if (navigator.deviceMemory !== undefined) {
     if (navigator.deviceMemory <= 6) {
         $("#memory_below_8GB").show();
