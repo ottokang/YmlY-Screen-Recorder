@@ -3,6 +3,7 @@
 // 宣告錄影物件、錄影檔案大小
 var recorder = null;
 var blobSize = 0;
+var shareType = "";
 
 // 綁定開始錄影動作
 $("#start_recorder_button").on("click", startRecord);
@@ -133,9 +134,18 @@ async function startRecord() {
         return;
     }
 
+    // 設定分享畫面類型
+    if (screenStream.getVideoTracks()[0].label.includes("window:")) {
+        shareType = "window";
+    } else if (screenStream.getVideoTracks()[0].label.includes("web-contents")) {
+        shareType = "tab";
+    } else {
+        shareType = "screen";
+    }
+
     // 判斷是否為視窗模式、是否有勾選錄製系統聲音
     if (isSystemAudio === true) {
-        if (screenStream.getVideoTracks()[0].label.includes("window:")) {
+        if (shareType === "window") {
             showMessage("你有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇分享整個畫面或者分頁，才能錄製聲音", 10);
             hasSystemAudio = false;
         } else if (isMacChrome) {
@@ -302,8 +312,10 @@ async function onStopRecording() {
     await recorder.stopRecording();
     let blob = await recorder.getBlob();
     recorder.destroy();
-    getSeekableBlob(blob, function (seekableRecorderBlobs) {
-        let blobURL = URL.createObjectURL(seekableRecorderBlobs);
+
+    // 分頁模式錄影要跳過 getSeekableBlob，避免出現錯誤
+    if (shareType === "tab") {
+        let blobURL = URL.createObjectURL(blob);
         $("#preview_video").prop({
             srcObject: null,
             src: blobURL,
@@ -317,9 +329,28 @@ async function onStopRecording() {
         });
 
         $("#file_size")
-            .html("檔案大小：" + bytesToSize(seekableRecorderBlobs.size))
+            .html("檔案大小：" + bytesToSize(blob.size))
             .show();
-    });
+    } else {
+        getSeekableBlob(blob, function (seekableRecorderBlobs) {
+            let blobURL = URL.createObjectURL(seekableRecorderBlobs);
+            $("#preview_video").prop({
+                srcObject: null,
+                src: blobURL,
+                controls: "controls",
+                muted: "",
+                autoplay: "",
+            });
+
+            $("#download_direct").prop({
+                href: blobURL,
+            });
+
+            $("#file_size")
+                .html("檔案大小：" + bytesToSize(seekableRecorderBlobs.size))
+                .show();
+        });
+    }
 
     $("#start_recorder_button").html("重新錄影").show();
     $("#stop_recorder_button, #recorder_time").hide();
