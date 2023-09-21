@@ -28,7 +28,7 @@ if (isMacChrome === true || isMacFirefox === true) {
 if (isChrome === true) {
     $(".only_chrome").show();
 } else if (isFirefox === true) {
-    // 顯示 Firefox 說明介面
+    // 顯示 Firefox 說明介面，停用 Firefox 不能用的選項
     $("#audio_mode option[value='mic_system']")
         .attr("disabled", "disabled")
         .html(function () {
@@ -39,7 +39,6 @@ if (isChrome === true) {
         .html(function () {
             $(this).html($(this).html() + "（僅限 Chrome）");
         });
-    $("#audio_mode option[value='only_mic']").attr("selected", "selected");
 
     // 隱藏 Chrome 說明介面
     $(".only_chrome").hide();
