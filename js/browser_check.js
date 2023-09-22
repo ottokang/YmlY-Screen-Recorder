@@ -28,20 +28,12 @@ if (isMacChrome === true || isMacFirefox === true) {
 if (isChrome === true) {
     $(".only_chrome").show();
 } else if (isFirefox === true) {
-    // 顯示 Firefox 說明介面，停用 Firefox 不能用的選項
-    $("#audio_mode option[value='mic_system']")
-        .attr("disabled", "disabled")
-        .html(function () {
-            $(this).html($(this).html() + "（僅限 Chrome）");
-        });
-    $("#audio_mode option[value='only_system']")
-        .attr("disabled", "disabled")
-        .html(function () {
-            $(this).html($(this).html() + "（僅限 Chrome）");
-        });
-
-    // 隱藏 Chrome 說明介面
+    // 隱藏 Chrome 說明介面、顯示 Firfox 說明界面
     $(".only_chrome").hide();
+    $(".only_firefox").show();
+
+    // 移除 Firefox 不能用的選項（錄製系統聲音功能）
+    $("#audio_mode option[value='mic_system'], #audio_mode option[value='only_system']").remove();
 }
 
 // 顯示不支援 Safari、行動裝置瀏覽器
