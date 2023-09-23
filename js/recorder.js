@@ -1,10 +1,11 @@
 "use strict";
 
-// 宣告錄影物件、錄影檔案大小、分享模式、錄影計時初始時間
+// 宣告錄影物件、錄影檔案大小、分享模式、錄影計時初始時間、錄影時間
 var recorder = null;
 var blobSize = 0;
 var shareType = "";
 var startTime = 0;
+var recorderTime = 0;
 
 // 綁定開始錄影動作
 $("#start_recorder_button").on("click", startRecord);
@@ -79,7 +80,7 @@ $("#download_rename_cancel").on("click", function () {
 
 // 綁定預覽畫面錄影時間改變動作
 $("#preview_video").on("timeupdate", function () {
-    let recorderTime = Math.floor((Date.now() - startTime) / 1000);
+    recorderTime = Math.floor((Date.now() - startTime) / 1000);
     $("#recorder_time").html("錄影時間：" + recorderTime.toString().toHHMMSS());
 });
 
@@ -264,16 +265,16 @@ async function startRecord() {
 
     // 是否設定時間限制
     if ($("#is_record_limit_time").prop("checked") === true) {
-        let durationMS = Number.parseInt($("#record_limit_mins").val()) * 60 * 1000;
+        let limitDurationMS = Number.parseInt($("#record_limit_mins").val()) * 60 * 1000;
 
-        // 測試模式設定7秒結束錄影
+        // 測試模式設定 15 秒結束錄影
         if (isDevelopement === true) {
-            durationMS = 7000;
+            limitDurationMS = 15000;
         }
 
         // 開始錄影、時間限制計時
         recorder.startRecording();
-        await sleep(durationMS);
+        await sleep(limitDurationMS);
 
         // 到達時間限制，還在錄影則停止錄影
         if (recorder.recordRTC.getState() === "recording") {
@@ -281,7 +282,7 @@ async function startRecord() {
             showMessage("到達時間限制，停止錄影");
         }
     } else {
-        // 開始錄影
+        // 無時間限制，開始錄影
         recorder.startRecording();
     }
 }
@@ -310,8 +311,12 @@ function mergeAudioStreams(screenStream, micStream) {
 
 // 停止錄影動作
 async function onStopRecording() {
-    // 檢查是否低於 10 秒
-
+    // 確認是是否低於 10 秒錄影結束
+    if (recorderTime < 10) {
+        if (!confirm("錄影時間低於 10 秒，可能會導致下載後播放問題，是否確定停止？")) {
+            return;
+        }
+    }
 
     await recorder.stopRecording();
     let blob = await recorder.getBlob();
