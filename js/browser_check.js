@@ -33,7 +33,9 @@ if (isChrome === true) {
     $(".only_firefox").show();
 
     // 移除 Firefox 不能用的選項（錄製系統聲音功能）
-    $("#audio_mode option[value='mic_system'], #audio_mode option[value='only_system']").remove();
+    if (isDevelopement === false) {
+        $("#audio_mode option[value='mic_system'], #audio_mode option[value='only_system']").remove();
+    }
 }
 
 // 顯示不支援 Safari、行動裝置瀏覽器

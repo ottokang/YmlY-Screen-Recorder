@@ -1,11 +1,5 @@
 "use strict";
 
-// 設定測試模式
-var isDevelopement = false;
-
-// 設定 RecorderRTC 是否紀錄 Log
-var isRecordRTClog = true;
-
 if (isDevelopement === true) {
     // 顯示測試用訊息
     $("#recorder_time").html("錄影時間測試").show();
