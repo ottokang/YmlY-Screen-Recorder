@@ -160,36 +160,28 @@ body {
 }
 
 #share_audio_tutorial {
+    background-color: #060606;
     border: 3px solid #616161;
     border-radius: 5px;
     box-shadow: 5px 5px 5px #616161;
-    padding: 0px;
+    padding: 15px;
     width: 50%;
 }
 
 #share_audio_tutorial_close {
     font-size: small;
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 0px;
+    top: 0px;
     z-index: 1;
 }
 
-#share_audio_tutorial_replay {
-    font-size: x-large;
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-}
-
-#share_audio_tutorial_video {
+#share_audio_tutorial_picture {
     display: block;
     width: 100%;
 }
 
-#share_audio_tutorial_link {
+#share_audio_tutorial_show {
     cursor: pointer;
     text-decoration: underline;
 }

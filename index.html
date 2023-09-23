@@ -70,7 +70,7 @@
                 <li id="memory_below_8GB" class="hide_on_start">記憶體不足 8GB，建議錄影不要超過 1 小時。</li>
                 <li>請至少錄影 10 秒以上，影片才能正常下載播放；檔案大小上限為 2GB，建議不要錄影超過 90 分鐘。</li>
                 <li class="only_firefox hide_on_start">要錄製系統聲音，請改用 Chrome 相容瀏覽器。</li>
-                <li class="only_chrome hide_on_start">錄影整個螢幕畫面時，若要錄製系統聲音，請記得勾選<b id="share_audio_tutorial_link">分享系統音訊</b>。</li>
+                <li class="only_chrome hide_on_start">若要在錄影整個螢幕畫面時錄製系統聲音，請在分享時勾選<b id="share_audio_tutorial_show">一併分享系統音訊</b>。</li>
                 <li>錄影格式為 WebM 檔案，建議上傳至 <a href="https://www.youtube.com/" target="_blank">YouTube</a> 後分享。</li>
                 <li class="only_mac hide_on_start">MacOS 螢幕錄影、麥克風權限請到「設定：安全與隱私」中確認是否開啟。</li>
                 <li>
@@ -84,9 +84,8 @@
             </ul>
         </div>
         <dialog id="share_audio_tutorial">
-            <button id="share_audio_tutorial_close">關閉❌</button>
-            <button id="share_audio_tutorial_replay">重新播放🔁</button>
-            <video id="share_audio_tutorial_video" src="media/share_system_sound_tutorial.mp4"></video>
+            <button id="share_audio_tutorial_close">❌</button>
+            <img id="share_audio_tutorial_picture" src="media/share_system_sound_tutorial.png" alt="Share system sound tutorial" />
         </dialog>
         <dialog id="download_rename_dialog">
             下載檔名：<input id="download_filename" name="download_filename" size="15" tabindex="1">
