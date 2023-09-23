@@ -1,9 +1,10 @@
 "use strict";
 
-// 宣告錄影物件、錄影檔案大小
+// 宣告錄影物件、錄影檔案大小、分享模式、錄影計時初始時間
 var recorder = null;
 var blobSize = 0;
 var shareType = "";
+var startTime = 0;
 
 // 綁定開始錄影動作
 $("#start_recorder_button").on("click", startRecord);
@@ -146,11 +147,11 @@ async function startRecord() {
     // 判斷是否為視窗模式、是否有勾選錄製系統聲音
     if (isSystemAudio === true) {
         if (shareType === "window") {
-            showMessage("你有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇分享整個畫面或者分頁，才能錄製聲音", 10);
+            showMessage("您有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇分享整個畫面或者分頁，才能錄製聲音", 10);
             hasSystemAudio = false;
         } else if (isMacChrome) {
             showMessage(
-                "你有勾選錄製系統聲音，但是 MacOS 版 Chrome 分享整個螢幕畫面無法分享系統聲音<br><br>如果要錄製系統聲音，請重新選擇分享分頁，才能錄製聲音",
+                "您有勾選錄製系統聲音，但是 MacOS 版 Chrome 分享整個螢幕畫面無法錄製系統聲音<br><br>如果要錄製系統聲音，請重新選擇分享分頁，才能錄製聲音",
                 10
             );
             hasSystemAudio = false;
@@ -204,8 +205,8 @@ async function startRecord() {
     // 開始錄影倒數
     await recorderCountdown($("#recorder_countdown").val());
 
-    // 開始錄影時間計時
-    startRecordTimeCounter();
+    // 開始錄影時間計時初始基準時間
+    startTime = Date.now();
 
     // 顯示停止錄影按鈕、顯示錄影時間、顯示錄影檔案大小
     $("#stop_recorder_button").show().css("display", "inline-block");
@@ -309,6 +310,9 @@ function mergeAudioStreams(screenStream, micStream) {
 
 // 停止錄影動作
 async function onStopRecording() {
+    // 檢查是否低於 10 秒
+
+
     await recorder.stopRecording();
     let blob = await recorder.getBlob();
     recorder.destroy();

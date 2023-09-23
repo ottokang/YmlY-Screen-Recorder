@@ -1,7 +1,6 @@
 "use strict";
 
 var messageTimeoutID;
-var startTime;
 
 // 顯示訊息
 function showMessage(text, countDown = null) {
@@ -65,11 +64,6 @@ async function playBeep(frequency = 440) {
     osc.frequency.value = frequency;
     osc.start(currentTime);
     osc.stop(currentTime + 1);
-}
-
-// 開始計算錄影時間
-function startRecordTimeCounter() {
-    startTime = Date.now();
 }
 
 // 等待一段時間，單位 ms
