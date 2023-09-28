@@ -38,6 +38,25 @@ body {
     top: 10px;
 }
 
+#has_system_audio {
+    background-color: #455a64;
+    border-radius: 5px;
+    left: 10px;
+    padding: 3px;
+    position: absolute;
+    top: 50px;
+}
+
+#mic_volume {
+    left: 10px;
+    position: absolute;
+    top: 75px;
+}
+
+#mic_volume_meter {
+    width: 3em;
+}
+
 #file_size {
     background-color: #455a64;
     border-radius: 5px;

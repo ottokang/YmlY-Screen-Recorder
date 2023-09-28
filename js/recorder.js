@@ -198,6 +198,14 @@ async function startRecord() {
     // 隱藏開始錄影按鈕、下載按鈕、檔案大小
     $("#start_recorder_button, #download, #file_size").hide();
 
+    // 顯示是否錄製系統聲音
+    $("#has_system_audio").show();
+    if (hasSystemAudio === true) {
+        $("#has_system_audio").html("🔊");
+    } else {
+        $("#has_system_audio").html("🔇");
+    }
+
     // 清除上一階段錄影物件
     if ($("#preview_video").prop("src") !== "") {
         URL.revokeObjectURL($("#preview_video").prop("src"));
@@ -361,7 +369,8 @@ async function onStopRecording() {
         });
     }
 
+    // 重新錄影、下載按鈕顯示，其餘隱藏
     $("#start_recorder_button").html("重新錄影").show();
-    $("#stop_recorder_button, #recorder_time").hide();
+    $("#stop_recorder_button, #recorder_time, #has_system_audio").hide();
     $("#download").show();
 }
