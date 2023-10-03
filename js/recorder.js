@@ -200,7 +200,7 @@ async function startRecord() {
 
     // 顯示是否錄製系統聲音
     $("#has_system_audio").show();
-    if (hasMicAudio === true) {
+    if (hasSystemAudio === true) {
         $("#has_system_audio").html("🔊");
     } else {
         $("#has_system_audio").html("🔇");
