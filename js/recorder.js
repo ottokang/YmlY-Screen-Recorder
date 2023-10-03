@@ -136,7 +136,7 @@ async function startRecord() {
         return;
     }
 
-    // 設定分享畫面類型
+    // 判斷分享畫面類型
     if (screenStream.getVideoTracks()[0].label.includes("window:")) {
         shareType = "window";
     } else if (screenStream.getVideoTracks()[0].label.includes("web-contents")) {
@@ -200,10 +200,16 @@ async function startRecord() {
 
     // 顯示是否錄製系統聲音
     $("#has_system_audio").show();
-    if (hasSystemAudio === true) {
+    if (hasMicAudio === true) {
         $("#has_system_audio").html("🔊");
     } else {
         $("#has_system_audio").html("🔇");
+    }
+
+    // 顯示錄影時麥克風音量
+    if (hasMicAudio === true) {
+        $("#mic_volume").show();
+        startMicVolumeMeter(micStream, "mic_volume_meter");
     }
 
     // 清除上一階段錄影物件
@@ -371,6 +377,6 @@ async function onStopRecording() {
 
     // 重新錄影、下載按鈕顯示，其餘隱藏
     $("#start_recorder_button").html("重新錄影").show();
-    $("#stop_recorder_button, #recorder_time, #has_system_audio").hide();
+    $("#stop_recorder_button, #recorder_time, #has_system_audio, #mic_volume").hide();
     $("#download").show();
 }

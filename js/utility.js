@@ -104,24 +104,9 @@ $("#mic_test").on("click", function () {
             micTestRecorder.start();
             let micTestLimit = 3;
 
-            // 開始顯示音量指標
+            // 開始顯示麥克風音量指標
             $("#mic_test_meter").show();
-            const audioContext = new AudioContext();
-            const mediaStreamAudioSourceNode = audioContext.createMediaStreamSource(micTestStream);
-            const analyserNode = audioContext.createAnalyser();
-            mediaStreamAudioSourceNode.connect(analyserNode);
-
-            const pcmData = new Float32Array(analyserNode.fftSize);
-            const onFrame = () => {
-                analyserNode.getFloatTimeDomainData(pcmData);
-                let sumSquares = 0.0;
-                for (const amplitude of pcmData) {
-                    sumSquares += amplitude * amplitude;
-                }
-                $("#mic_test_meter").val(Math.sqrt(sumSquares / pcmData.length));
-                window.requestAnimationFrame(onFrame);
-            };
-            window.requestAnimationFrame(onFrame);
+            startMicVolumeMeter(micTestStream, "mic_test_meter");
 
             // 更新倒數秒數
             for (let i = 0; i < micTestLimit; i++) {
@@ -140,6 +125,26 @@ $("#mic_test").on("click", function () {
             console.log(e.message);
         });
 });
+
+// 開始麥克風音量偵測顯示
+function startMicVolumeMeter(micStream, volumeMeterId) {
+    const audioContext = new AudioContext();
+    const mediaStreamAudioSourceNode = audioContext.createMediaStreamSource(micStream);
+    const analyserNode = audioContext.createAnalyser();
+    mediaStreamAudioSourceNode.connect(analyserNode);
+
+    const pcmData = new Float32Array(analyserNode.fftSize);
+    const onFrame = () => {
+        analyserNode.getFloatTimeDomainData(pcmData);
+        let sumSquares = 0.0;
+        for (const amplitude of pcmData) {
+            sumSquares += amplitude * amplitude;
+        }
+        $(`#${volumeMeterId}`).val(Math.sqrt(sumSquares / pcmData.length));
+        window.requestAnimationFrame(onFrame);
+    };
+    window.requestAnimationFrame(onFrame);
+}
 
 // 綁定播放預覽時清除訊息
 $("#preview_video").on("play", function () {
