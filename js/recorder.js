@@ -202,14 +202,19 @@ async function startRecord() {
     $("#has_system_audio").show();
     if (hasSystemAudio === true) {
         $("#has_system_audio").html("🔊");
+        $("#has_system_audio").prop("title", "錄製系統聲音中...");
     } else {
         $("#has_system_audio").html("🔇");
+        $("#has_system_audio").prop("title", "未錄製系統聲音");
     }
 
     // 顯示錄影時麥克風音量
+    $("#mic_volume").show();
     if (hasMicAudio === true) {
-        $("#mic_volume").show();
         startMicVolumeMeter(micStream, "mic_volume_meter");
+    } else {
+        $("#mic_volume").html("🎙️🚫");
+        $("#mic_volume").prop("title", "未錄製麥克風聲音");
     }
 
     // 清除上一階段錄影物件

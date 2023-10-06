@@ -46,10 +46,3 @@ if (isSafari === true) {
     showMessage("不支援行動裝置瀏覽器<br>請改用 Windows、MacOS 版 Chrome、Firefox 瀏覽器");
     $(".not_supported").hide();
 }
-
-// 偵測裝置記憶體（僅限 Chrome）
-if (navigator.deviceMemory !== undefined) {
-    if (navigator.deviceMemory <= 6) {
-        $("#memory_below_8GB").show();
-    }
-}
