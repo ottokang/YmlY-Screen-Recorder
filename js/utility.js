@@ -153,21 +153,12 @@ $("#preview_video").on("play", function () {
     }
 });
 
-// 處理播放時間為時:分:秒
+// 處理播放時間為時：分：秒
 String.prototype.toHHMMSS = function () {
     let secondsNumber = Number.parseInt(this, 10);
     let hours = Math.floor(secondsNumber / 3600);
     let minutes = Math.floor((secondsNumber - hours * 3600) / 60);
     let seconds = secondsNumber - hours * 3600 - minutes * 60;
 
-    if (hours < 10) {
-        hours = `0${hours}`;
-    }
-    if (minutes < 10) {
-        minutes = `0${minutes}`;
-    }
-    if (seconds < 10) {
-        seconds = `0${seconds}`;
-    }
-    return hours + ":" + minutes + ":" + seconds;
+    return String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
 };

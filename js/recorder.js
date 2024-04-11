@@ -249,14 +249,14 @@ async function startRecord() {
             blobSize += blob.size;
             $("#file_size").html("檔案大小：" + bytesToSize(blobSize));
 
-            // 超過1.9GB，發出警告
+            // 超過 1.9GB，發出警告
             if (blobSize > 1900000000) {
                 $("#file_size")
                     .html("檔案大小：" + bytesToSize(blobSize) + "<br>（將於 2GB 停止錄影）")
                     .css("color", "#E53935");
             }
 
-            // 超過1.95GB，預先停止錄影避免錯誤
+            // 超過 1.95GB，停止錄影避免錯誤
             if (blobSize > 1950000000) {
                 onStopRecording();
                 showMessage("到達檔案大小限制（2GB），停止錄影");
@@ -286,7 +286,7 @@ async function startRecord() {
     if ($("#is_record_limit_time").prop("checked") === true) {
         let limitDurationMS = Number.parseInt($("#record_limit_mins").val()) * 60 * 1000;
 
-        // 測試模式設定 15 秒結束錄影
+        // 開發模式下，設定 15 秒結束錄影
         if (isDevelopement === true) {
             limitDurationMS = 15000;
         }
@@ -380,8 +380,9 @@ async function onStopRecording() {
         });
     }
 
-    // 重新錄影、下載按鈕顯示，其餘隱藏
+    // 顯示重新錄影、下載按鈕，其餘隱藏
     $("#start_recorder_button").html("重新錄影").show();
-    $("#stop_recorder_button, #recorder_time, #has_system_audio, #mic_volume").hide();
     $("#download").show();
+    $("#stop_recorder_button, #recorder_time, #has_system_audio, #mic_volume").hide();
+
 }
