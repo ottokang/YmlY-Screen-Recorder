@@ -66,15 +66,15 @@ async function playBeep(frequency = 440) {
     osc.stop(currentTime + 1);
 }
 
-// 等待一段時間，單位 ms
+// 等待時間函數，單位 ms
 var sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// 綁定測試錄音播放結束恢復測試按鈕
+// 綁定測試錄音播放結束後，恢復測試按鈕可點選狀態
 $("#mic_test_audio").on("ended ", function () {
     $("#mic_test").html("🎙️ 測試麥克風");
 });
 
-// 綁定麥克風測試
+// 綁定點選測試麥克風
 $("#mic_test").on("click", function () {
     navigator.mediaDevices
         .getUserMedia({
@@ -88,7 +88,7 @@ $("#mic_test").on("click", function () {
             $("#mic_test").html('🛑 錄音中...<span id="mic_test_countdown"></span>');
             const micTestRecorder = new MediaRecorder(micTestStream);
 
-            // 設定有錄音資料處理函數、停止錄音處理函數
+            // 綁定有錄音處理函數、停止錄音處理函數
             micTestRecorder.ondataavailable = (e) => micTestStreamBlobs.push(e.data);
             micTestRecorder.onstop = async () => {
                 micTestRecorderBlobs = new Blob(micTestStreamBlobs, {
@@ -114,6 +114,7 @@ $("#mic_test").on("click", function () {
                 await sleep(1000);
             }
 
+            // 停止錄音
             micTestRecorder.stop();
             $("#mic_test").html("🔊 播放中...");
             if (isDevelopement === false) {
