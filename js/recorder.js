@@ -199,22 +199,22 @@ async function startRecord() {
     $("#start_recorder_button, #download, #file_size").hide();
 
     // 顯示是否錄製系統聲音
-    $("#has_system_audio").show();
     if (hasSystemAudio === true) {
-        $("#has_system_audio").html("🔊");
-        $("#has_system_audio").prop("title", "錄製系統聲音中...");
+        $("#has_system_audio").show();
+        $("#no_system_audio").hide();
     } else {
-        $("#has_system_audio").html("🔇");
-        $("#has_system_audio").prop("title", "未錄製系統聲音");
+        $("#has_system_audio").hide();
+        $("#no_system_audio").show();
     }
 
     // 顯示錄影時麥克風音量
-    $("#mic_volume").show();
     if (hasMicAudio === true) {
+        $("#mic_volume").show();
         startMicVolumeMeter(micStream, "mic_volume_meter");
+        $("#no_mic").hide();
     } else {
-        $("#mic_volume").html("🎙️🚫");
-        $("#mic_volume").prop("title", "未錄製麥克風聲音");
+        $("#mic_volume").hide();
+        $("#no_mic").show();
     }
 
     // 清除上一階段錄影物件
@@ -383,6 +383,5 @@ async function onStopRecording() {
     // 顯示重新錄影、下載按鈕，其餘隱藏
     $("#start_recorder_button").html("重新錄影").show();
     $("#download").show();
-    $("#stop_recorder_button, #recorder_time, #has_system_audio, #mic_volume").hide();
-
+    $("#stop_recorder_button, #recorder_time, #has_system_audio, #no_system_audio, #mic_volume, #no_mic").hide();
 }

@@ -6,8 +6,10 @@ if (isDevelopement === true) {
     $("#countdown_time").html("倒數時間").show();
     $("#message").html("訊息測試").show();
     $("#file_size").html("檔案大小").show();
-    $("#has_system_audio").html("🔊").show();
+    //$("#has_system_audio").show();
+    $("#no_system_audio").show();
     $("#mic_volume").show();
+    //$("#no_mic").show();
 
     // 綁定倒數計時測試函數
     $("#countdown_test").on("click", function () {

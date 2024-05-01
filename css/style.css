@@ -38,7 +38,8 @@ body {
     top: 10px;
 }
 
-#has_system_audio {
+#has_system_audio,
+#no_system_audio {
     background-color: #455a64;
     border-radius: 5px;
     left: 10px;
@@ -47,14 +48,34 @@ body {
     top: 50px;
 }
 
-#mic_volume {
-    left: 10px;
+#mic_volume,
+#no_mic {
+    background-color: #455a64;
+    border-radius: 5px;
     position: absolute;
     top: 85px;
 }
 
+#mic_volume {
+    left: 10px;
+    line-height: 1;
+    padding: 5px;
+    writing-mode: vertical-rl;
+}
+
 #mic_volume_meter {
-    width: 3em;
+    display: inline-block;
+    height: 3em;
+    vertical-align: text-top;
+}
+
+#no_mic {
+    left: 12px;
+    padding: 2px;
+}
+
+#no_mic img {
+    width: 20px;
 }
 
 #file_size {
