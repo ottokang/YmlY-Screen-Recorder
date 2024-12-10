@@ -148,7 +148,7 @@ async function startRecord() {
     // 判斷是否為視窗模式、是否有勾選錄製系統聲音
     if (isSystemAudio === true) {
         if (shareType === "window") {
-            showMessage("您有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇分享整個畫面或者分頁，才能錄製聲音", 10);
+            showMessage("您有勾選錄製系統聲音，但是選擇了視窗模式，此模式下無法錄製系統聲音<br><br>請重新選擇分享整個螢幕畫面或者分頁，才能錄製聲音", 10);
             hasSystemAudio = false;
         } else if (isMacChrome) {
             showMessage(
@@ -157,7 +157,8 @@ async function startRecord() {
             );
             hasSystemAudio = false;
         } else if (screenStream.getAudioTracks().length === 0 && isSystemAudio === true) {
-            showMessage("沒有勾選分享系統音訊，請重新點選錄影後勾選");
+            showMessage("沒有勾選分享系統音訊，無法錄製系統聲音<br><br>請記得分享整個螢幕畫面前勾選「<b>一併分享系統音訊</b>」");
+            $("#share_audio_tutorial").fadeIn();
             return;
         }
     }

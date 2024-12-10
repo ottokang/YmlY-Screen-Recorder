@@ -24,6 +24,11 @@ body {
     width: 45%;
 }
 
+#app_title {
+    color: #317af7;
+    margin-bottom: 0.5em;
+}
+
 #preview_video {
     background-color: #212121;
     border: 1px solid white;
@@ -106,16 +111,17 @@ body {
 }
 
 #message {
-    background-color: #db6b42;
+    background-color: #ed6f21;
     border-radius: 5px;
     bottom: 20%;
     color: #fafafa;
-    font-weight: bold;
+    font-weight: normal;
     left: 50%;
     padding: 8px;
     position: absolute;
     transform: translateX(-50%);
     width: 80%;
+    z-index: 1;
 }
 
 #buttons {
@@ -169,15 +175,11 @@ body {
 
 #instruction ul li a:link,
 #instruction ul li a:visited {
-    color: #2196f3;
+    color: #317af7;
 }
 
 #instruction #mic_test_countdown {
     color: red;
-}
-
-#instruction #memory_below_8GB {
-    color: #ef5350;
 }
 
 #mic_test_meter {
