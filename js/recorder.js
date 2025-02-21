@@ -30,10 +30,12 @@ $("#download_direct").on("click", function () {
         let hourString = String(date.getHours()).padStart(2, "0");
         let minuteSring = String(date.getMinutes()).padStart(2, "0");
         let fileDateString = `${yearString}-${monthString}-${dateString} ${hourString}-${minuteSring}`;
-        $("#download_direct").prop("download", `螢幕錄影 ${fileDateString}.webm`);
+        let fileExtension = getExtensionFromMimeType(mimeType);
+        $("#download_direct").prop("download", `螢幕錄影 ${fileDateString}.${fileExtension}`);
     } else {
         // 下載修改過檔名的檔案
-        $("#download_direct").prop("download", `${$("#download_filename").val().trim()}.webm`);
+        let fileExtension = getExtensionFromMimeType(mimeType);
+        $("#download_direct").prop("download", `${$("#download_filename").val().trim()}.${fileExtension}`);
     }
 });
 
@@ -83,6 +85,28 @@ $("#preview_video").on("timeupdate", function () {
     recorderTime = Math.floor((Date.now() - startTime) / 1000);
     $("#recorder_time").html("錄影時間：" + recorderTime.toString().toHHMMSS());
 });
+
+// 設定錄影格式選單
+if (isDevelopement === true) {
+    for (let mimeType of mimeTypes) {
+        let text = mimeType.text;
+        let video_format_supported;
+        if (mimeType.isTypeSupported === true) {
+            text += "（支援）";
+            video_format_supported = "mime_type_supported";
+        } else {
+            text += "（不支援）";
+            video_format_supported = "mime_type_unsupported";
+        }
+        $("#video_format").append(
+            $("<option>", {
+                value: mimeType.value,
+                text: text,
+                class: video_format_supported,
+            })
+        );
+    }
+}
 
 // 開始錄影
 async function startRecord() {
@@ -239,9 +263,14 @@ async function startRecord() {
     // 初始化錄影檔案大小，若要測試上限可以設定為 1950000000
     blobSize = 0;
 
+    // 開發模式下，設定使用的錄影格式
+    if (isDevelopement === true) {
+        mimeType = $("#video_format").val();
+    }
+
     // 設定錄影選項
     let recorderOptions = {
-        mimeType: "video/webm",
+        mimeType: mimeType,
         recorderType: MediaStreamRecorder,
         disableLogs: !isRecordRTClog,
         timeSlice: 1000,
@@ -264,21 +293,6 @@ async function startRecord() {
             }
         },
     };
-
-    // 開發模式使用設定的錄影格式
-    if (isDevelopement === true) {
-        switch ($("#video_format").val()) {
-            case "vp8":
-                recorderOptions.mimeType = "video/webm;codecs=vp8";
-                break;
-            case "vp9":
-                recorderOptions.mimeType = "video/webm;codecs=vp9";
-                break;
-            case "h264":
-                recorderOptions.mimeType = "video/webm;codecs=H264";
-                break;
-        }
-    }
 
     // 初始化錄影物件
     recorder = new RecordRTCPromisesHandler(stream, recorderOptions);
@@ -343,7 +357,7 @@ async function onStopRecording() {
     recorder.destroy();
 
     // 分頁模式錄影要跳過 getSeekableBlob，避免出現錯誤
-    if (shareType === "tab") {
+    if (shareType === "tab" || getExtensionFromMimeType(mimeType) === "mp4") {
         let blobURL = URL.createObjectURL(blob);
         $("#preview_video").prop({
             srcObject: null,

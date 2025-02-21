@@ -54,11 +54,7 @@
             </div>
             <div class="option_item dev">
                 <label for="video_format">錄影格式：</label>
-                <select id="video_format">
-                    <option value="vp8">.webm (VP8+Opus, Chrome && Firefox)</option>
-                    <option value="vp9">.webm (VP9+Opus, Chrome)</option>
-                    <option value="h264">.webm (H.264+Opus, Chrome)</option>
-                </select>
+                <select id="video_format"></select>
             </div>
             <div class="option_item">
                 <label for="recorder_countdown">錄影倒數：</label>
@@ -82,7 +78,8 @@
                 <li>請錄影至少 10 秒以上，影片才能正常下載播放；檔案大小上限為 2GB，建議不要錄影超過 90 分鐘。</li>
                 <li class="only_firefox hide_on_start">要錄製系統聲音，請改用 Chrome 相容瀏覽器。</li>
                 <li class="only_chrome hide_on_start">若要在錄影整個螢幕畫面時錄製系統聲音，請在分享時勾選「<b id="share_audio_tutorial_show">一併分享系統音訊」</b>」。</li>
-                <li>錄影格式為 WebM 檔案，建議上傳 <a href="https://www.youtube.com/" target="_blank">YouTube</a> 後分享。</li>
+                <li class="only_chrome hide_on_start">錄影格式為 MP4 檔案。</li>
+                <li class="only_firefox hide_on_start">錄影格式為 WebM 檔案，建議上傳 <a href="https://www.youtube.com/" target="_blank">YouTube</a> 後分享。</li>
                 <li class="only_mac hide_on_start">MacOS 請到「設定：安全與隱私」中確認是否開啟螢幕錄影、麥克風權限。</li>
                 <li>
                     <button id="mic_test">🎙️測試麥克風</button>
@@ -115,8 +112,8 @@
     <script src="js/utility.js"></script>
     <script src="js/record_time_limit.js"></script>
     <script src="js/share_audio_tutorial.js"></script>
-    <script src="js/recorder.js"></script>
     <script src="js/browser_check.js"></script>
+    <script src="js/recorder.js"></script>
     <script src="js/mouse.js"></script>
     <script src="js/dev.js"></script>
 </body>

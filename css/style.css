@@ -153,6 +153,14 @@ body {
     color: #999999;
 }
 
+#video_format .mime_type_supported {
+    color: #5ba854;
+}
+
+#video_format .mime_type_unsupported {
+    color: #d2c3b2;
+}
+
 #record_limit_time.disabled {
     color: #888888;
 }

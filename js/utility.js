@@ -163,3 +163,12 @@ String.prototype.toHHMMSS = function () {
 
     return String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
 };
+
+// 取得錄影格式副檔名
+function getExtensionFromMimeType(mimeType) {
+    if (mimeType.search("mp4") !== -1) {
+        return "mp4";
+    } else if (mimeType.search("webm") !== -1) {
+        return "webm";
+    }
+}
