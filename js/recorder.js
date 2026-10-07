@@ -6,6 +6,8 @@ var blobSize = 0;
 var shareType = "";
 var startTime = 0;
 var recorderTime = 0;
+var micVolumeMeterController = null;
+var mergeAudioContext = null;
 
 // 綁定開始錄影動作
 $("#start_recorder_button").on("click", startRecord);
@@ -235,7 +237,10 @@ async function startRecord() {
     // 顯示錄影時麥克風音量
     if (hasMicAudio === true) {
         $("#mic_volume").show();
-        startMicVolumeMeter(micStream, "mic_volume_meter");
+        if (micVolumeMeterController !== null) {
+            micVolumeMeterController.stop();
+        }
+        micVolumeMeterController = startMicVolumeMeter(micStream, "mic_volume_meter");
         $("#no_mic").hide();
     } else {
         $("#mic_volume").hide();
@@ -323,19 +328,23 @@ async function startRecord() {
 
 // 混合系統聲音和麥克風聲音
 function mergeAudioStreams(screenStream, micStream) {
-    const context = new AudioContext();
-    const mergeDestination = context.createMediaStreamDestination();
+    if (mergeAudioContext !== null && mergeAudioContext.state !== "closed") {
+        mergeAudioContext.close();
+    }
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    mergeAudioContext = new AudioCtx();
+    const mergeDestination = mergeAudioContext.createMediaStreamDestination();
 
     if (screenStream.getAudioTracks().length > 0) {
-        const source1 = context.createMediaStreamSource(screenStream);
-        const systemAudioGain = context.createGain();
+        const source1 = mergeAudioContext.createMediaStreamSource(screenStream);
+        const systemAudioGain = mergeAudioContext.createGain();
         systemAudioGain.gain.value = 0.75;
         source1.connect(systemAudioGain).connect(mergeDestination);
     }
 
     if (micStream !== null && micStream.getAudioTracks().length > 0) {
-        const source2 = context.createMediaStreamSource(micStream);
-        const micAudioGain = context.createGain();
+        const source2 = mergeAudioContext.createMediaStreamSource(micStream);
+        const micAudioGain = mergeAudioContext.createGain();
         micAudioGain.gain.value = 1.5;
         source2.connect(micAudioGain).connect(mergeDestination);
     }
@@ -350,6 +359,22 @@ async function onStopRecording() {
         if (!confirm("錄影時間低於 10 秒，可能會導致下載後播放問題，是否確定停止？")) {
             return;
         }
+    }
+
+    // 停止麥克風音量偵測動畫迴圈與釋放其 AudioContext
+    if (micVolumeMeterController !== null) {
+        micVolumeMeterController.stop();
+        micVolumeMeterController = null;
+    }
+
+    // 關閉混音所使用的 AudioContext
+    if (mergeAudioContext !== null && mergeAudioContext.state !== "closed") {
+        try {
+            mergeAudioContext.close();
+        } catch (e) {
+            console.warn(e);
+        }
+        mergeAudioContext = null;
     }
 
     await recorder.stopRecording();

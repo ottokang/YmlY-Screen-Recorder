@@ -42,28 +42,39 @@ async function recorderCountdown(seconds) {
     }
 }
 
-// 播放提示音（參考：https://github.com/kapetan/browser-beep）
+// 播放提示音（重複使用單一 AudioContext，避免反覆創建達到瀏覽器上限）
+var beepAudioContext = null;
 async function playBeep(frequency = 440) {
-    var audioContext = new window.AudioContext();
-    var currentTime = audioContext.currentTime;
-    var osc = audioContext.createOscillator();
-    var gain = audioContext.createGain();
+    try {
+        if (!beepAudioContext || beepAudioContext.state === "closed") {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            beepAudioContext = new AudioCtx();
+        }
+        if (beepAudioContext.state === "suspended") {
+            await beepAudioContext.resume();
+        }
+        var currentTime = beepAudioContext.currentTime;
+        var osc = beepAudioContext.createOscillator();
+        var gain = beepAudioContext.createGain();
 
-    osc.connect(gain);
-    gain.connect(audioContext.destination);
+        osc.connect(gain);
+        gain.connect(beepAudioContext.destination);
 
-    gain.gain.setValueAtTime(gain.gain.value, currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.00001, currentTime + 1);
+        gain.gain.setValueAtTime(gain.gain.value, currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.00001, currentTime + 1);
 
-    osc.onended = function () {
-        gain.disconnect(audioContext.destination);
-        osc.disconnect(gain);
-    };
+        osc.onended = function () {
+            gain.disconnect(beepAudioContext.destination);
+            osc.disconnect(gain);
+        };
 
-    osc.type = "sine";
-    osc.frequency.value = frequency;
-    osc.start(currentTime);
-    osc.stop(currentTime + 1);
+        osc.type = "sine";
+        osc.frequency.value = frequency;
+        osc.start(currentTime);
+        osc.stop(currentTime + 1);
+    } catch (e) {
+        console.warn("playBeep error:", e);
+    }
 }
 
 // 等待時間函數，單位 ms
@@ -84,6 +95,7 @@ $("#mic_test").on("click", function () {
         .then(async function (micTestStream) {
             let micTestStreamBlobs = [];
             let micTestRecorderBlobs = [];
+            let micTestMeterController = null;
 
             $("#mic_test").html('🛑 錄音中...<span id="mic_test_countdown"></span>');
             const micTestRecorder = new MediaRecorder(micTestStream);
@@ -91,6 +103,15 @@ $("#mic_test").on("click", function () {
             // 綁定有錄音處理函數、停止錄音處理函數
             micTestRecorder.ondataavailable = (e) => micTestStreamBlobs.push(e.data);
             micTestRecorder.onstop = async () => {
+                // 停止測試麥克風串流的所有軌道，釋放麥克風
+                micTestStream.getTracks().forEach((track) => track.stop());
+
+                // 停止音量偵測動畫迴圈與關閉 AudioContext
+                if (micTestMeterController !== null) {
+                    micTestMeterController.stop();
+                    micTestMeterController = null;
+                }
+
                 micTestRecorderBlobs = new Blob(micTestStreamBlobs, {
                     type: "audio/webm",
                 });
@@ -106,7 +127,7 @@ $("#mic_test").on("click", function () {
 
             // 開始顯示麥克風音量指標
             $("#mic_test_meter").show();
-            startMicVolumeMeter(micTestStream, "mic_test_meter");
+            micTestMeterController = startMicVolumeMeter(micTestStream, "mic_test_meter");
 
             // 更新倒數秒數
             for (let i = 0; i < micTestLimit; i++) {
@@ -127,24 +148,49 @@ $("#mic_test").on("click", function () {
         });
 });
 
-// 開始麥克風音量偵測顯示
+// 開始麥克風音量偵測顯示，返回控制器以便停止 requestAnimationFrame 與關閉 AudioContext
 function startMicVolumeMeter(micStream, volumeMeterId) {
-    const audioContext = new AudioContext();
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const audioContext = new AudioCtx();
     const mediaStreamAudioSourceNode = audioContext.createMediaStreamSource(micStream);
     const analyserNode = audioContext.createAnalyser();
     mediaStreamAudioSourceNode.connect(analyserNode);
 
     const pcmData = new Float32Array(analyserNode.fftSize);
+    let rafId = null;
+    let isRunning = true;
+
     const onFrame = () => {
+        if (!isRunning) return;
         analyserNode.getFloatTimeDomainData(pcmData);
         let sumSquares = 0.0;
         for (const amplitude of pcmData) {
             sumSquares += amplitude * amplitude;
         }
         $(`#${volumeMeterId}`).val(Math.sqrt(sumSquares / pcmData.length));
-        window.requestAnimationFrame(onFrame);
+        rafId = window.requestAnimationFrame(onFrame);
     };
-    window.requestAnimationFrame(onFrame);
+    rafId = window.requestAnimationFrame(onFrame);
+
+    return {
+        stop: function () {
+            isRunning = false;
+            if (rafId !== null) {
+                window.cancelAnimationFrame(rafId);
+                rafId = null;
+            }
+            try {
+                mediaStreamAudioSourceNode.disconnect();
+                analyserNode.disconnect();
+                if (audioContext.state !== "closed") {
+                    audioContext.close();
+                }
+            } catch (e) {
+                console.warn("stop mic meter error:", e);
+            }
+            $(`#${volumeMeterId}`).val(0);
+        },
+    };
 }
 
 // 綁定播放預覽時清除訊息
