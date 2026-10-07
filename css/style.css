@@ -209,13 +209,27 @@ body {
     color: #757575;
 }
 
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(2px);
+}
+
 #share_audio_tutorial {
     background-color: #060606;
     border: 3px solid #616161;
-    border-radius: 5px;
-    box-shadow: 5px 5px 5px #616161;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     padding: 15px;
     width: 50%;
+}
+
+#download_rename_dialog {
+    background-color: #2b2b2b;
+    border: 2px solid #616161;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    color: #ecf0f1;
+    padding: 20px;
 }
 
 #share_audio_tutorial_close {

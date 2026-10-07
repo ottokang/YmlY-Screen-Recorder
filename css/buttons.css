@@ -27,16 +27,6 @@
     background-color: #6a1b9a;
 }
 
-#start_recorder_button {
-    background-color: #7b1fa2;
-    color: #ecf0f1;
-}
-
-#start_recorder_button:hover,
-#start_recorder_button:focus {
-    background-color: #6a1b9a;
-}
-
 #stop_recorder_button {
     background-color: #d32f2f;
     color: #ecf0f1;
