@@ -8,6 +8,21 @@ var startTime = 0;
 var recorderTime = 0;
 var micVolumeMeterController = null;
 var mergeAudioContext = null;
+var currentScreenStream = null;
+var currentMicStream = null;
+var isRecordingCancelled = false;
+
+// 停止所有硬體軌道（螢幕擷取、麥克風），確保紅點指示燈關閉
+function stopHardwareTracks() {
+    if (currentScreenStream !== null) {
+        currentScreenStream.getTracks().forEach((track) => track.stop());
+        currentScreenStream = null;
+    }
+    if (currentMicStream !== null) {
+        currentMicStream.getTracks().forEach((track) => track.stop());
+        currentMicStream = null;
+    }
+}
 
 // 綁定開始錄影動作
 $("#start_recorder_button").on("click", startRecord);
@@ -118,6 +133,9 @@ async function startRecord() {
         hasMicAudio = false,
         hasSystemAudio = false;
 
+    // 重設取消狀態
+    isRecordingCancelled = false;
+
     // 清除訊息
     clearMessage();
 
@@ -152,14 +170,44 @@ async function startRecord() {
             video: true,
             audio: isSystemAudio,
         });
+        currentScreenStream = screenStream;
     } catch (e) {
-        if (e.message.includes("audio source")) {
+        if (e.name === "NotAllowedError" || e.name === "AbortError") {
+            showMessage("已取消畫面分享選擇");
+        } else if (e.message && e.message.includes("audio source")) {
             showMessage("沒有音訊裝置，請選擇聲音模式為無聲音後重新錄影");
         } else {
             showMessage("請重新整理網頁，允許瀏覽器分享畫面");
         }
         console.log(e.message);
+        stopHardwareTracks();
         return;
+    }
+
+    // 監聽瀏覽器原生停止共用事件，防止狀態脫鉤
+    const screenVideoTrack = screenStream.getVideoTracks()[0];
+    if (screenVideoTrack) {
+        screenVideoTrack.onended = function () {
+            if (recorder && recorder.recordRTC && recorder.recordRTC.getState() === "recording") {
+                onStopRecording(true);
+            } else {
+                isRecordingCancelled = true;
+                stopHardwareTracks();
+                if (micVolumeMeterController !== null) {
+                    micVolumeMeterController.stop();
+                    micVolumeMeterController = null;
+                }
+                if (mergeAudioContext !== null && mergeAudioContext.state !== "closed") {
+                    mergeAudioContext.close();
+                    mergeAudioContext = null;
+                }
+                $("#preview_video").prop("srcObject", null);
+                $("#preview_message").show();
+                $("#start_recorder_button").show();
+                $("#countdown_time, #mic_volume, #no_mic, #has_system_audio, #no_system_audio, #stop_recorder_button, #recorder_time, #file_size").hide();
+                showMessage("已停止螢幕共用");
+            }
+        };
     }
 
     // 判斷分享畫面類型
@@ -185,6 +233,7 @@ async function startRecord() {
         } else if (screenStream.getAudioTracks().length === 0 && isSystemAudio === true) {
             showMessage("沒有勾選分享系統音訊，無法錄製系統聲音<br><br>請記得分享整個螢幕畫面前勾選「<b>一併分享系統音訊</b>」");
             $("#share_audio_tutorial").fadeIn();
+            stopHardwareTracks();
             return;
         }
     }
@@ -195,10 +244,12 @@ async function startRecord() {
                 video: false,
                 audio: true,
             });
+            currentMicStream = micStream;
         }
     } catch (e) {
         showMessage("沒有取得麥克風權限，請重新整理網頁，允許瀏覽器使用麥克風<br><br>或是插入麥克風後重啟瀏覽器");
         console.log(e.message);
+        stopHardwareTracks();
         return;
     }
 
@@ -254,6 +305,9 @@ async function startRecord() {
 
     // 開始錄影倒數
     await recorderCountdown($("#recorder_countdown").val());
+    if (isRecordingCancelled === true) {
+        return;
+    }
 
     // 開始錄影時間計時初始基準時間
     startTime = Date.now();
@@ -353,13 +407,16 @@ function mergeAudioStreams(screenStream, micStream) {
 }
 
 // 停止錄影動作
-async function onStopRecording() {
-    // 確認是是否低於 10 秒錄影結束
-    if (recorderTime < 10) {
+async function onStopRecording(isNativeStop = false) {
+    // 確認是否低於 10 秒錄影結束（若是瀏覽器原生中斷停止共用，則直接處理不彈窗確認）
+    if (!isNativeStop && recorderTime < 10) {
         if (!confirm("錄影時間低於 10 秒，可能會導致下載後播放問題，是否確定停止？")) {
             return;
         }
     }
+
+    // 停止所有實體串流 Tracks，關閉攝影機/麥克風與螢幕擷取紅點
+    stopHardwareTracks();
 
     // 停止麥克風音量偵測動畫迴圈與釋放其 AudioContext
     if (micVolumeMeterController !== null) {
